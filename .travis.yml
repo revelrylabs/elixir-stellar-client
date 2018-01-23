@@ -1,0 +1,12 @@
+sudo: false
+language: elixir
+elixir:
+  - 1.6.0
+otp_release:
+  - 20.2
+install:
+  - mix local.hex --force
+  - mix local.rebar --force
+  - mix deps.get
+script:
+  - mix test

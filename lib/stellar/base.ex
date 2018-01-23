@@ -17,14 +17,18 @@ defmodule Stellar.Base do
     "https://horizon.stellar.org"
   end
 
+  defp get_url(url) do
+    url
+  end
+
   def process_response(response) do
     case response do
       {:ok, %HTTPoison.Response{status_code: status_code, body: body}}
       when status_code >= 200 and status_code < 300 ->
-        {:ok, Poison.decode!(body)}
+        {:ok, Jason.decode!(body)}
 
       {:ok, %HTTPoison.Response{body: body}} ->
-        {:error, Poison.decode!(body)}
+        {:error, Jason.decode!(body)}
 
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, %{"detail" => reason}}

@@ -15,6 +15,14 @@ def deps do
 end
 ```
 
+## Setup
+
+Add the following to your configuration:
+
+```elixir
+config :stellar, network: :public # Default is `:public`. To use test network, use `:test`
+```
+
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/stellar](https://hexdocs.pm/stellar).

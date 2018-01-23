@@ -1,18 +1,15 @@
 defmodule Stellar do
   @moduledoc """
-  Documentation for Stellar.
+  Stellar Client for Elixir
+
+  ### Setup
+
+  Add the following to your configuration:
+
+  ```elixir
+  config :stellar, network: :public # Default is `:public`. To use test network, use `:test`
+  ```
   """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Stellar.hello
-      :world
-
-  """
-  def hello do
-    :world
-  end
+  @type status :: :ok | :error
 end
