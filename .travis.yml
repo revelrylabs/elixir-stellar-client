@@ -4,9 +4,32 @@ elixir:
   - 1.6.0
 otp_release:
   - 20.2
+env:
+  global:
+    - HEX_USERNAME=bryanjos
+    - MIX_ENV=test
+cache:
+  directories:
+    - _build
+    - deps
 install:
   - mix local.hex --force
   - mix local.rebar --force
   - mix deps.get
 script:
   - mix test
+deploy:
+   # https://docs.travis-ci.com/user/deployment/script/
+   # > `script` must be a scalar pointing to an executable file or command.
+   provider: script
+   # http://yaml.org/spec/1.2/spec.html#id2779048
+   # `>-` indicates the line folding.
+   script: >-
+     mix deps.get &&
+     mix hex.config username "$HEX_USERNAME" &&
+     (mix hex.config encrypted_key "$HEX_ENCRYPTED_KEY" > /dev/null 2>&1) &&
+     (echo "$HEX_PASSPHRASE"\\nY | mix hex.publish) &&
+     mix clean &&
+     mix deps.clean --all
+   on:
+    tags: true
