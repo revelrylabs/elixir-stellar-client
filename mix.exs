@@ -8,6 +8,7 @@ defmodule Stellar.MixProject do
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
+      package: package(),
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test],
 
@@ -38,4 +39,16 @@ defmodule Stellar.MixProject do
       {:excoveralls, "~> 0.8.0", only: :test}
     ]
   end
+
+  defp package do
+    [
+      files: ["lib", "mix.exs", "README.md", "LICENSE", "CHANGELOG.md"],
+      maintainers: ["Bryan Joseph"],
+      licenses: ["MIT"],
+      links: %{
+        "GitHub" => "https://github.com/revelrylabs/elixir-stellar-client"
+      },
+      build_tools: ["mix"]
+    ]
+end
 end
