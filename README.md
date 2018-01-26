@@ -1,5 +1,7 @@
 # Stellar
 
+[![Build Status](https://travis-ci.org/revelrylabs/elixir-stellar-client.svg?branch=master)](https://travis-ci.org/revelrylabs/elixir-stellar-client)
+
 A [Stellar](https://stellar.org) client for Elixir.
 
 ## Installation
