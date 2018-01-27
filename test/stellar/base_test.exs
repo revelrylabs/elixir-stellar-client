@@ -51,7 +51,7 @@ defmodule Stellar.Base.Test do
 
       Bypass.down(bypass)
 
-      assert {:error, %{"detail" => :econnrefused}} = Base.get("/accounts/unknown_id")
+      assert {:error, %{"detail" => _}} = Base.get("/accounts/unknown_id")
     end
   end
 end
