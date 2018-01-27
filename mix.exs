@@ -5,6 +5,7 @@ defmodule Stellar.MixProject do
     [
       app: :stellar,
       version: "0.1.1",
+      description: description(),
       elixir: "~> 1.6",
       elixirc_paths: elixirc_paths(Mix.env),
       start_permanent: Mix.env() == :prod,
@@ -42,6 +43,12 @@ defmodule Stellar.MixProject do
 
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
+
+  defp description do
+    """
+    Stellar API client for Elixir
+    """
+end
 
   defp package do
     [

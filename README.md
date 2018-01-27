@@ -12,7 +12,7 @@ by adding `stellar` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:stellar, "~> 0.1.0"}
+    {:stellar, "~> 0.1.1"}
   ]
 end
 ```
