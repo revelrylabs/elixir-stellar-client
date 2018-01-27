@@ -1,0 +1,35 @@
+defmodule Stellar.Operations.Test do
+  use ExUnit.Case, async: true
+  alias Stellar.Operations
+
+  setup do
+    bypass = Bypass.open
+    url = "http://localhost:#{bypass.port}"
+    Application.put_env(:stellar, :network, url)
+    {:ok, bypass: bypass}
+  end
+
+  test "get operation details", %{bypass: bypass} do
+    Bypass.expect_once bypass, "GET", "/operations/123456", fn conn ->
+      Plug.Conn.resp(conn, 200, ~s<{"id": "123456"}>)
+    end
+
+    assert {:ok, %{"id" => "123456"}} = Operations.get("123456")
+  end
+
+  test "get all operations", %{bypass: bypass} do
+    Bypass.expect_once bypass, "GET", "/operations", fn conn ->
+      Plug.Conn.resp(conn, 200, ~s<{"_embedded": { "records": [] }}>)
+    end
+
+    assert {:ok, %{"_embedded" => _}} = Operations.all()
+  end
+
+  test "get all operations for an account", %{bypass: bypass} do
+    Bypass.expect_once bypass, "GET", "/accounts/123456/operations", fn conn ->
+      Plug.Conn.resp(conn, 200, ~s<{"_embedded": { "records": [] }}>)
+    end
+
+    assert {:ok, %{"_embedded" => _}} = Operations.all_for_account("123456")
+  end
+end
