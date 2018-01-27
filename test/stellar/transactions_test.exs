@@ -1,13 +1,6 @@
 defmodule Stellar.Transactions.Test do
-  use ExUnit.Case, async: true
+  use Stellar.HttpCase
   alias Stellar.Transactions
-
-  setup do
-    bypass = Bypass.open
-    url = "http://localhost:#{bypass.port}"
-    Application.put_env(:stellar, :network, url)
-    {:ok, bypass: bypass}
-  end
 
   test "get transaction details", %{bypass: bypass} do
     Bypass.expect_once bypass, "GET", "/transactions/123456", fn conn ->

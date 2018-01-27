@@ -1,13 +1,6 @@
 defmodule Stellar.Payments.Test do
-  use ExUnit.Case, async: true
+  use Stellar.HttpCase
   alias Stellar.Payments
-
-  setup do
-    bypass = Bypass.open
-    url = "http://localhost:#{bypass.port}"
-    Application.put_env(:stellar, :network, url)
-    {:ok, bypass: bypass}
-  end
 
   test "get all payments", %{bypass: bypass} do
     Bypass.expect_once bypass, "GET", "/payments", fn conn ->

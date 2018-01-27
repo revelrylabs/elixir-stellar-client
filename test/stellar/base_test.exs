@@ -1,13 +1,6 @@
 defmodule Stellar.Base.Test do
-  use ExUnit.Case, async: true
+  use Stellar.HttpCase
   alias Stellar.Base
-
-  setup do
-    bypass = Bypass.open
-    url = "http://localhost:#{bypass.port}"
-    Application.put_env(:stellar, :network, url)
-    {:ok, bypass: bypass}
-  end
 
   describe "get_network_url" do
     test "returns test network when :test specified" do
@@ -43,7 +36,7 @@ defmodule Stellar.Base.Test do
     end
 
     test "Handles http client error", %{bypass: bypass} do
-      Bypass.expect bypass, fn conn ->
+      Bypass.expect_once bypass, fn conn ->
         Plug.Conn.resp(conn, 200, "{}")
       end
 

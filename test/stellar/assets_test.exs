@@ -1,13 +1,6 @@
 defmodule Stellar.Assets.Test do
-  use ExUnit.Case, async: true
+  use Stellar.HttpCase
   alias Stellar.Assets
-
-  setup do
-    bypass = Bypass.open
-    url = "http://localhost:#{bypass.port}"
-    Application.put_env(:stellar, :network, url)
-    {:ok, bypass: bypass}
-  end
 
   test "get assets with no parameters", %{bypass: bypass} do
     Bypass.expect_once bypass, "GET", "/assets", fn conn ->

@@ -6,6 +6,7 @@ defmodule Stellar.MixProject do
       app: :stellar,
       version: "0.1.0",
       elixir: "~> 1.6",
+      elixirc_paths: elixirc_paths(Mix.env),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       package: package(),
@@ -38,6 +39,9 @@ defmodule Stellar.MixProject do
       {:excoveralls, "~> 0.8.0", only: :test}
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 
   defp package do
     [
