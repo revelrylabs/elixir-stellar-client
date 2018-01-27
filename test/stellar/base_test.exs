@@ -41,5 +41,17 @@ defmodule Stellar.Base.Test do
 
       assert {:error, %{"status" => 404}} = Base.get("/accounts/unknown_id")
     end
+
+    test "Handles http client error", %{bypass: bypass} do
+      Bypass.expect bypass, fn conn ->
+        Plug.Conn.resp(conn, 200, "{}")
+      end
+
+      assert {:ok, _} = Base.get("/accounts/unknown_id")
+
+      Bypass.down(bypass)
+
+      assert {:error, %{"detail" => :econnrefused}} = Base.get("/accounts/unknown_id")
+    end
   end
 end
