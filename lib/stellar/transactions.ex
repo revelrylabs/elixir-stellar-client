@@ -33,14 +33,6 @@ defmodule Stellar.Transactions do
   Returns all transactions for given account
 
   See `all/1` for allowed optional params
-
-  optional `params` can take any of the following.:
-
-  * `cursor`: A paging token, specifying where to start returning records from.
-
-  * `order`: The order in which to return rows, "asc" or "desc".
-
-  * `limit`: Maximum number of records to return.
   """
   @spec all_for_account(binary, Keyword.t) :: {Stellar.status, map}
   def all_for_account(accountId, params \\ []) do
