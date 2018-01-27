@@ -19,17 +19,18 @@ install:
 script:
   - mix test
 deploy:
-   # https://docs.travis-ci.com/user/deployment/script/
-   # > `script` must be a scalar pointing to an executable file or command.
-   provider: script
-   # http://yaml.org/spec/1.2/spec.html#id2779048
-   # `>-` indicates the line folding.
-   script: >-
-     mix deps.get &&
-     mix hex.config username "$HEX_USERNAME" &&
-     (mix hex.config encrypted_key "$HEX_ENCRYPTED_KEY" > /dev/null 2>&1) &&
-     (echo "$HEX_PASSPHRASE"\\nY | mix hex.publish) &&
-     mix clean &&
-     mix deps.clean --all
-   on:
+  skip_cleanup: true
+  # https://docs.travis-ci.com/user/deployment/script/
+  # > `script` must be a scalar pointing to an executable file or command.
+  provider: script
+  # http://yaml.org/spec/1.2/spec.html#id2779048
+  # `>-` indicates the line folding.
+  script: >-
+    mix deps.get &&
+    mix hex.config username "$HEX_USERNAME" &&
+    (mix hex.config encrypted_key "$HEX_ENCRYPTED_KEY" > /dev/null 2>&1) &&
+    (echo "$HEX_PASSPHRASE"\\nY | mix hex.publish) &&
+    mix clean &&
+    mix deps.clean --all
+  on:
     tags: true
