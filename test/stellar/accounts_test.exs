@@ -9,7 +9,7 @@ defmodule Stellar.Accounts.Test do
     {:ok, bypass: bypass}
   end
 
-  test "get account detail", %{bypass: bypass} do
+  test "get account details", %{bypass: bypass} do
     Bypass.expect_once bypass, "GET", "/accounts/123456", fn conn ->
       Plug.Conn.resp(conn, 200, ~s<{"id": "123456"}>)
     end

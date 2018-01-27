@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Added
-- `Accounts.get/1` for getting account details
-- `Accounts.get_data/2` for getting data associated with account
-- `Assets.all/0` and `Assets.all/1` for listing assets in the system
+- `Accounts`
+  * `get/1` for getting account details
+  * `get_data/2` for getting data associated with account
+- `Assets`
+  * `all/0` and `all/1` for listing assets in the system
+- `Transactions`
+  * `get/1` for getting transaction details
+  * `all/0` and `all/1` for listing transactions in the system
+  * `all_for_account/1` and `all_for_account/2` for listing transactions for an account
