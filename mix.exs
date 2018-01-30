@@ -35,6 +35,8 @@ defmodule Stellar.MixProject do
     [
       {:httpoison, "~> 1.0"},
       {:jason, "~> 1.0"},
+      {:crc, "~> 0.8.2"},
+      {:ed25519, "~> 1.1"},
       {:ex_doc, "~> 0.18.1", only: :dev},
       {:bypass, "~> 0.8.1", only: :test},
       {:excoveralls, "~> 0.8.0", only: :test}
