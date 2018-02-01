@@ -21,6 +21,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Ledgers`
   * `get/1` for getting ledger details
   * `all/0` and `all/1` for listing ledgers in the system
+- `Trades`
+  * `all/0` and `all/1` for listing trades in the system
+  * `all_for_order_book/2` and `all_for_order_book/3` for listing trades for an order book
+- `Order Book`
+  * `get/1` for getting order book details
 
 ## [0.1.1] - 2018-01-27
 ### Fixed

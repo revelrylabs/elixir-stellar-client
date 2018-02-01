@@ -12,4 +12,5 @@ defmodule Stellar do
   """
 
   @type status :: :ok | :error
+  @type asset_type :: :native | :credit_alphanum4 | :credit_alphanum12
 end
