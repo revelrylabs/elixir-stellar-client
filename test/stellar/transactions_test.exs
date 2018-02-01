@@ -25,4 +25,12 @@ defmodule Stellar.Transactions.Test do
 
     assert {:ok, %{"_embedded" => _}} = Transactions.all_for_account("123456")
   end
+
+  test "get all transactions for a ledger", %{bypass: bypass} do
+    Bypass.expect_once bypass, "GET", "/ledgers/123456/transactions", fn conn ->
+      Plug.Conn.resp(conn, 200, ~s<{"_embedded": { "records": [] }}>)
+    end
+
+    assert {:ok, %{"_embedded" => _}} = Transactions.all_for_ledger("123456")
+  end
 end

@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `KeyPair`
   * `from_secret/1` for getting a key pair from a secret
   * `random/0` for generating a new key pair
+- `Operations`
+  * `all_for_ledger/1` and `all_for_ledger/2` for listing operations for a ledger
+- `Effects`
+  * `all_for_operation/1` and `all_for_operation/2` for listing effects for an operation
+  * `all_for_ledger/1` and `all_for_ledger/2` for listing effects for an operation
+- `Payments`
+  * `all_for_ledger/1` and `all_for_ledger/2` for listing payments for a ledger
+- `Transactions`
+  * `all_for_ledger/1` and `all_for_ledger/2` for listing transactions for a ledger
+- `Ledgers`
+  * `get/1` for getting ledger details
+  * `all/0` and `all/1` for listing ledgers in the system
 
 ## [0.1.1] - 2018-01-27
 ### Fixed

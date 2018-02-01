@@ -39,4 +39,15 @@ defmodule Stellar.Operations do
     query = Base.process_query_params(params)
     Base.get("/accounts/#{accountId}/operations#{query}")
   end
+
+  @doc """
+  Returns all operations for given ledger
+
+  See `all/1` for allowed optional params
+  """
+  @spec all_for_ledger(binary, Keyword.t) :: {Stellar.status, map}
+  def all_for_ledger(ledgerId, params \\ []) do
+    query = Base.process_query_params(params)
+    Base.get("/ledgers/#{ledgerId}/operations#{query}")
+  end
 end

@@ -25,4 +25,20 @@ defmodule Stellar.Effects.Test do
 
     assert {:ok, %{"_embedded" => _}} = Effects.all_for_account("123456")
   end
+
+  test "get all effects for an operation", %{bypass: bypass} do
+    Bypass.expect_once bypass, "GET", "/operations/123456/effects", fn conn ->
+      Plug.Conn.resp(conn, 200, ~s<{"_embedded": { "records": [] }}>)
+    end
+
+    assert {:ok, %{"_embedded" => _}} = Effects.all_for_operation("123456")
+  end
+
+  test "get all effects for a ledger", %{bypass: bypass} do
+    Bypass.expect_once bypass, "GET", "/ledgers/123456/effects", fn conn ->
+      Plug.Conn.resp(conn, 200, ~s<{"_embedded": { "records": [] }}>)
+    end
+
+    assert {:ok, %{"_embedded" => _}} = Effects.all_for_ledger("123456")
+  end
 end
