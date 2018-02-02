@@ -8,7 +8,7 @@ A [Stellar](https://stellar.org) client for Elixir.
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
+The package can be installed
 by adding `stellar` to your list of dependencies in `mix.exs`:
 
 ```elixir
