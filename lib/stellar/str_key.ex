@@ -6,18 +6,29 @@ defmodule Stellar.StrKey do
   import Bitwise
 
   @version_bytes %{
-    ed25519PublicKey:  6 <<< 3, # G
-    ed25519SecretSeed: 18 <<< 3, # S
-    preAuthTx:         19 <<< 3, # T
-    sha256Hash:        23 <<< 3  # X
+    # G
+    ed25519PublicKey: 6 <<< 3,
+    # S
+    ed25519SecretSeed: 18 <<< 3,
+    # T
+    preAuthTx: 19 <<< 3,
+    # X
+    sha256Hash: 23 <<< 3
   }
 
   def encode_check!(_, nil) do
     raise ArgumentError, "cannot encode nil data"
   end
 
-  def encode_check!(version_byte_name, _) when version_byte_name not in [:ed25519PublicKey, :ed25519SecretSeed, :preAuthTx, :sha256Hash] do
-    raise ArgumentError, "#{version_byte_name} is not a valid version byte name.  expected one of :ed25519PublicKey, :ed25519SecretSeed, :preAuthTx, :sha256Hash"
+  def encode_check!(version_byte_name, _)
+      when version_byte_name not in [
+             :ed25519PublicKey,
+             :ed25519SecretSeed,
+             :preAuthTx,
+             :sha256Hash
+           ] do
+    raise ArgumentError,
+          "#{version_byte_name} is not a valid version byte name.  expected one of :ed25519PublicKey, :ed25519SecretSeed, :preAuthTx, :sha256Hash"
   end
 
   def encode_check!(version_byte_name, data) do
@@ -31,7 +42,7 @@ defmodule Stellar.StrKey do
 
   def decode_check!(version_byte_name, encoded) do
     decoded = Base.decode32!(encoded)
-    <<version_byte :: size(8), data :: binary-size(32), checksum :: little-integer-size(16)>> = decoded
+    <<version_byte::size(8), data::binary-size(32), checksum::little-integer-size(16)>> = decoded
 
     expected_version = @version_bytes[version_byte_name]
 
@@ -40,7 +51,8 @@ defmodule Stellar.StrKey do
     end
 
     if version_byte != expected_version do
-      raise ArgumentError, "invalid version byte. expected #{expected_version}, got #{version_byte}"
+      raise ArgumentError,
+            "invalid version byte. expected #{expected_version}, got #{version_byte}"
     end
 
     expected_checksum = CRC.crc(:crc_16_xmodem, <<version_byte>> <> data)

@@ -15,7 +15,7 @@ defmodule Stellar.Transactions do
 
   * `limit`: Maximum number of records to return.
   """
-  @spec all(Keyword.t) :: {Stellar.status, map}
+  @spec all(Keyword.t()) :: {Stellar.status(), map}
   def all(params \\ []) do
     query = Base.process_query_params(params)
     Base.get("/transactions#{query}")
@@ -24,7 +24,7 @@ defmodule Stellar.Transactions do
   @doc """
   Gets transaction details
   """
-  @spec get(binary) :: {Stellar.status, map}
+  @spec get(binary) :: {Stellar.status(), map}
   def get(hash) do
     Base.get("/transactions/#{hash}")
   end
@@ -34,9 +34,34 @@ defmodule Stellar.Transactions do
 
   See `all/1` for allowed optional params
   """
-  @spec all_for_account(binary, Keyword.t) :: {Stellar.status, map}
+  @spec all_for_account(binary, Keyword.t()) :: {Stellar.status(), map}
   def all_for_account(accountId, params \\ []) do
     query = Base.process_query_params(params)
     Base.get("/accounts/#{accountId}/transactions#{query}")
+  end
+
+  @doc """
+  Returns all transactions for given ledger
+
+  See `all/1` for allowed optional params
+  """
+  @spec all_for_ledger(binary, Keyword.t()) :: {Stellar.status(), map}
+  def all_for_ledger(ledgerId, params \\ []) do
+    query = Base.process_query_params(params)
+    Base.get("/ledgers/#{ledgerId}/transactions#{query}")
+  end
+
+  @doc """
+  Posts the given Base64 representation of a transaction envelope
+  """
+  @spec post(binary) :: {Stellar.status(), map}
+  def post(transaction) do
+    form =
+      {:multipart,
+       [
+         {"tx", transaction}
+       ]}
+
+    Base.post("/transactions", form)
   end
 end
