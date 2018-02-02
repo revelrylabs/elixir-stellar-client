@@ -2,7 +2,7 @@ defmodule Stellar.PaymentPaths.Test do
   use Stellar.HttpCase
   alias Stellar.PaymentPaths
 
-  test "get order book details", %{bypass: bypass} do
+  test "get all payment paths", %{bypass: bypass} do
     Bypass.expect_once bypass, "GET", "/paths", fn conn ->
       Plug.Conn.resp(conn, 200, ~s<{"_embedded": { "records": [] }}>)
     end
