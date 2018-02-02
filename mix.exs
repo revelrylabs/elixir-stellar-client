@@ -4,15 +4,20 @@ defmodule Stellar.MixProject do
   def project do
     [
       app: :stellar,
-      version: "0.1.1",
+      version: "0.2.0",
       description: description(),
       elixir: "~> 1.6",
-      elixirc_paths: elixirc_paths(Mix.env),
+      elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       package: package(),
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ],
 
       # Docs
       name: "Stellar",
@@ -50,7 +55,7 @@ defmodule Stellar.MixProject do
     """
     Stellar API client for Elixir
     """
-end
+  end
 
   defp package do
     [
@@ -62,5 +67,5 @@ end
       },
       build_tools: ["mix"]
     ]
-end
+  end
 end
