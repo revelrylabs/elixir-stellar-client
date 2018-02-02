@@ -15,7 +15,7 @@ defmodule Stellar.Ledgers do
 
   * `limit`: Maximum number of records to return.
   """
-  @spec all(Keyword.t) :: {Stellar.status, map}
+  @spec all(Keyword.t()) :: {Stellar.status(), map}
   def all(params \\ []) do
     query = Base.process_query_params(params)
     Base.get("/ledgers#{query}")
@@ -24,7 +24,7 @@ defmodule Stellar.Ledgers do
   @doc """
   Gets ledger details
   """
-  @spec get(binary) :: {Stellar.status, map}
+  @spec get(binary) :: {Stellar.status(), map}
   def get(id) do
     Base.get("/ledgers/#{id}")
   end

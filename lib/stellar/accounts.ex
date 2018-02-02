@@ -7,7 +7,7 @@ defmodule Stellar.Accounts do
   @doc """
   Gets account details
   """
-  @spec get(binary) :: {Stellar.status, map}
+  @spec get(binary) :: {Stellar.status(), map}
   def get(accountId) do
     Base.get("/accounts/#{accountId}")
   end
@@ -15,7 +15,7 @@ defmodule Stellar.Accounts do
   @doc """
   Gets a single data associated with the given account
   """
-  @spec get_data(binary, binary) :: {Stellar.status, map}
+  @spec get_data(binary, binary) :: {Stellar.status(), map}
   def get_data(accountId, key) do
     Base.get("/accounts/#{accountId}/data/#{key}")
   end

@@ -9,7 +9,7 @@ defmodule Stellar.HttpCase do
   end
 
   setup do
-    bypass = Bypass.open
+    bypass = Bypass.open()
     url = "http://localhost:#{bypass.port}"
     Application.put_env(:stellar, :network, url)
     {:ok, bypass: bypass}

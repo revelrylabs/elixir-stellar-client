@@ -29,7 +29,7 @@ defmodule Stellar.Trades do
 
   * `limit`: Maximum number of records to return.
   """
-  @spec all(Keyword.t) :: {Stellar.status, map}
+  @spec all(Keyword.t()) :: {Stellar.status(), map}
   def all(params \\ []) do
     query = Base.process_query_params(params)
     Base.get("/trades#{query}")
@@ -50,11 +50,13 @@ defmodule Stellar.Trades do
 
   * `limit`: Maximum number of records to return.
   """
-  @spec all_for_order_book(Stellar.asset_type, Stellar.asset_type, Keyword.t) :: {Stellar.status, map}
+  @spec all_for_order_book(Stellar.asset_type(), Stellar.asset_type(), Keyword.t()) ::
+          {Stellar.status(), map}
   def all_for_order_book(selling_asset_type, buying_asset_type, params \\ []) do
-    params = params
-    |> Keyword.put(:selling_asset_type, selling_asset_type)
-    |> Keyword.put(:buying_asset_type, buying_asset_type)
+    params =
+      params
+      |> Keyword.put(:selling_asset_type, selling_asset_type)
+      |> Keyword.put(:buying_asset_type, buying_asset_type)
 
     query = Base.process_query_params(params)
     Base.get("/order_book/trades#{query}")

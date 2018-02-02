@@ -15,7 +15,7 @@ defmodule Stellar.Offers do
 
   * `limit`: Maximum number of records to return.
   """
-  @spec all_for_account(binary, Keyword.t) :: {Stellar.status, map}
+  @spec all_for_account(binary, Keyword.t()) :: {Stellar.status(), map}
   def all_for_account(accountId, params \\ []) do
     query = Base.process_query_params(params)
     Base.get("/accounts/#{accountId}/offers#{query}")

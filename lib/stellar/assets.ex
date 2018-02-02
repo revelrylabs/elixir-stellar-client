@@ -19,7 +19,7 @@ defmodule Stellar.Assets do
 
   * `limit`: Maximum number of records to return.
   """
-  @spec all(Keyword.t) :: {Stellar.status, map}
+  @spec all(Keyword.t()) :: {Stellar.status(), map}
   def all(params \\ []) do
     query = Base.process_query_params(params)
     Base.get("/assets#{query}")

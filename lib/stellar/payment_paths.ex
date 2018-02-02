@@ -15,12 +15,13 @@ defmodule Stellar.PaymentPaths do
 
   * `source_account`: The sender’s account id. Any returned path must use a source that the sender can hold.
   """
-  @spec all(binary, Stellar.asset_type, number, Keyword.t) :: {Stellar.status, map}
+  @spec all(binary, Stellar.asset_type(), number, Keyword.t()) :: {Stellar.status(), map}
   def all(destination_account, destination_asset_type, destination_amount, params \\ []) do
-    params = params
-    |> Keyword.put(:destination_account, destination_account)
-    |> Keyword.put(:destination_amount, destination_amount)
-    |> Keyword.put(:destination_asset_type, destination_asset_type)
+    params =
+      params
+      |> Keyword.put(:destination_account, destination_account)
+      |> Keyword.put(:destination_amount, destination_amount)
+      |> Keyword.put(:destination_asset_type, destination_asset_type)
 
     query = Base.process_query_params(params)
     Base.get("/paths#{query}")

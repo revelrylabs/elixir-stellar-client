@@ -2,11 +2,22 @@ defmodule Stellar.Base do
   @moduledoc false
 
   def get(endpoint, headers \\ %{}) do
-    network = Application.get_env(:stellar, :network, :public)
-    url = get_network_url(network)
+    url = get_url()
 
     HTTPoison.get(url <> endpoint, headers)
     |> process_response()
+  end
+
+  def post(endpoint, body, headers \\ %{}) do
+    url = get_url()
+
+    HTTPoison.post(url <> endpoint, body, headers)
+    |> process_response()
+  end
+
+  defp get_url() do
+    network = Application.get_env(:stellar, :network, :public)
+    get_network_url(network)
   end
 
   def get_network_url(:test), do: "https://horizon-testnet.stellar.org"

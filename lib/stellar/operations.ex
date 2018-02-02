@@ -15,7 +15,7 @@ defmodule Stellar.Operations do
 
   * `limit`: Maximum number of records to return.
   """
-  @spec all(Keyword.t) :: {Stellar.status, map}
+  @spec all(Keyword.t()) :: {Stellar.status(), map}
   def all(params \\ []) do
     query = Base.process_query_params(params)
     Base.get("/operations#{query}")
@@ -24,7 +24,7 @@ defmodule Stellar.Operations do
   @doc """
   Gets operation details
   """
-  @spec get(binary) :: {Stellar.status, map}
+  @spec get(binary) :: {Stellar.status(), map}
   def get(id) do
     Base.get("/operations/#{id}")
   end
@@ -34,7 +34,7 @@ defmodule Stellar.Operations do
 
   See `all/1` for allowed optional params
   """
-  @spec all_for_account(binary, Keyword.t) :: {Stellar.status, map}
+  @spec all_for_account(binary, Keyword.t()) :: {Stellar.status(), map}
   def all_for_account(accountId, params \\ []) do
     query = Base.process_query_params(params)
     Base.get("/accounts/#{accountId}/operations#{query}")
@@ -45,7 +45,7 @@ defmodule Stellar.Operations do
 
   See `all/1` for allowed optional params
   """
-  @spec all_for_ledger(binary, Keyword.t) :: {Stellar.status, map}
+  @spec all_for_ledger(binary, Keyword.t()) :: {Stellar.status(), map}
   def all_for_ledger(ledgerId, params \\ []) do
     query = Base.process_query_params(params)
     Base.get("/ledgers/#{ledgerId}/operations#{query}")

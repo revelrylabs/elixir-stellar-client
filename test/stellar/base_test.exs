@@ -22,23 +22,27 @@ defmodule Stellar.Base.Test do
     end
 
     test "returns query string when params is not empty" do
-      assert Base.process_query_params([asset_code: "USD"]) == "?asset_code=USD"
+      assert Base.process_query_params(asset_code: "USD") == "?asset_code=USD"
     end
   end
 
   describe "general error responses" do
     test "Handles error response", %{bypass: bypass} do
-      Bypass.expect_once bypass, "GET", "/accounts/unknown_id", fn conn ->
-        Plug.Conn.resp(conn, 404, ~s<{"status": 404, "type": "https://stellar.org/horizon-errors/not_found", "title": "Resource Missing"}>)
-      end
+      Bypass.expect_once(bypass, "GET", "/accounts/unknown_id", fn conn ->
+        Plug.Conn.resp(
+          conn,
+          404,
+          ~s<{"status": 404, "type": "https://stellar.org/horizon-errors/not_found", "title": "Resource Missing"}>
+        )
+      end)
 
       assert {:error, %{"status" => 404}} = Base.get("/accounts/unknown_id")
     end
 
     test "Handles http client error", %{bypass: bypass} do
-      Bypass.expect_once bypass, fn conn ->
+      Bypass.expect_once(bypass, fn conn ->
         Plug.Conn.resp(conn, 200, "{}")
-      end
+      end)
 
       assert {:ok, _} = Base.get("/accounts/unknown_id")
 

@@ -27,11 +27,12 @@ defmodule Stellar.TradeAggregations do
 
   * `limit`: Maximum number of records to return.
   """
-  @spec all(Stellar.asset_type, Stellar.asset_type, Keyword.t) :: {Stellar.status, map}
+  @spec all(Stellar.asset_type(), Stellar.asset_type(), Keyword.t()) :: {Stellar.status(), map}
   def all(base_asset_type, counter_asset_type, params \\ []) do
-    params = params
-    |> Keyword.put(:base_asset_type, base_asset_type)
-    |> Keyword.put(:counter_asset_type, counter_asset_type)
+    params =
+      params
+      |> Keyword.put(:base_asset_type, base_asset_type)
+      |> Keyword.put(:counter_asset_type, counter_asset_type)
 
     query = Base.process_query_params(params)
     Base.get("/trade_aggregations#{query}")

@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   * `all_for_ledger/1` and `all_for_ledger/2` for listing payments for a ledger
 - `Transactions`
   * `all_for_ledger/1` and `all_for_ledger/2` for listing transactions for a ledger
+  * `post/1` for posting a transaction
 - `Ledgers`
   * `get/1` for getting ledger details
   * `all/0` and `all/1` for listing ledgers in the system
