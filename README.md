@@ -4,6 +4,8 @@
 
 A [Stellar](https://stellar.org) client for Elixir.
 
+[Documentation](https://hexdocs.pm/stellar)
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
@@ -12,7 +14,7 @@ by adding `stellar` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:stellar, "~> 0.1.1"}
+    {:stellar, "~> 0.2.0"}
   ]
 end
 ```
