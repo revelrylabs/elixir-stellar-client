@@ -40,11 +40,12 @@ defmodule Stellar.MixProject do
     [
       {:httpoison, "~> 1.0"},
       {:jason, "~> 1.0"},
-      {:crc, "~> 0.8.2"},
+      {:crc, "~> 0.9.0"},
       {:ed25519, "~> 1.1"},
       {:ex_doc, "~> 0.18.1", only: :dev},
       {:bypass, "~> 0.8.1", only: :test},
-      {:excoveralls, "~> 0.8.0", only: :test}
+      {:excoveralls, "~> 0.8.0", only: :test},
+      {:xdr, "~> 0.1.1"}
     ]
   end
 
@@ -60,7 +61,7 @@ defmodule Stellar.MixProject do
   defp package do
     [
       files: ["lib", "mix.exs", "README.md", "LICENSE", "CHANGELOG.md"],
-      maintainers: ["Bryan Joseph"],
+      maintainers: ["Bryan Joseph", "Luke Ledet"],
       licenses: ["MIT"],
       links: %{
         "GitHub" => "https://github.com/revelrylabs/elixir-stellar-client"

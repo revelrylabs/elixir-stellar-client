@@ -1,13 +1,12 @@
 sudo: false
 language: elixir
 elixir:
-  - 1.6.0
+  - 1.6
 otp_release:
   - 20.2
 env:
   global:
     - HEX_USERNAME=bryanjos
-    - MIX_ENV=test
 cache:
   directories:
     - _build
