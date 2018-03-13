@@ -4,19 +4,23 @@ elixir:
   - 1.6
 otp_release:
   - 20.2
-env:
-  global:
-    - HEX_USERNAME=bryanjos
 cache:
   directories:
     - _build
     - deps
+env:
+  global:
+    - HEX_USERNAME=bryanjos
+before_install:
+  - mkdir -p ~/.hex/
+  - openssl aes-256-cbc -K $encrypted_36030c2fae51_key -iv $encrypted_36030c2fae51_iv -in hex.config.enc -out ~/.hex/hex.config -d
 install:
   - mix local.hex --force
   - mix local.rebar --force
   - mix deps.get
 script:
   - mix test
+  - mix compile
 deploy:
   skip_cleanup: true
   # https://docs.travis-ci.com/user/deployment/script/
@@ -26,9 +30,7 @@ deploy:
   # `>-` indicates the line folding.
   script: >-
     mix deps.get &&
-    mix hex.config username "$HEX_USERNAME" &&
-    (mix hex.config encrypted_key "$HEX_ENCRYPTED_KEY" > /dev/null 2>&1) &&
-    (echo "$HEX_PASSPHRASE"\\nY | mix hex.publish) &&
+    echo $HEX_PASSPHRASE | mix hex.publish --no-confirm &&
     mix clean &&
     mix deps.clean --all
   on:
