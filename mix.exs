@@ -4,7 +4,7 @@ defmodule Stellar.MixProject do
   def project do
     [
       app: :stellar,
-      version: "0.2.0",
+      version: "0.2.1",
       description: description(),
       elixir: "~> 1.6",
       elixirc_paths: elixirc_paths(Mix.env()),
