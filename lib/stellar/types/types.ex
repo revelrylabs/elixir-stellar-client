@@ -1,5 +1,5 @@
 defmodule Stellar.Types do
-  alias XDR.Type.{FixedOpaque, Enum, Union, Int, Void, VariableOpaque}
+  alias XDR.Type.{FixedOpaque, Enum, Union, VariableOpaque}
 
   defmodule Hash do
     use FixedOpaque, len: 32
@@ -21,16 +21,36 @@ defmodule Stellar.Types do
   defmodule PublicKeyType do
     use Enum,
       spec: [
-        PUBLIC_KEY_TYPE_ED25519: CryptoKeyType.encode(:KEY_TYPE_ED25519)
+        PUBLIC_KEY_TYPE_ED25519: 0
       ]
   end
 
   defmodule SignerKeyType do
     use Enum,
       spec: [
-        SIGNER_KEY_TYPE_ED25519: CryptoKeyType.encode(:KEY_TYPE_ED25519),
-        SIGNER_KEY_TYPE_PRE_AUTH_TX: CryptoKeyType.encode(:KEY_TYPE_PRE_AUTH_TX),
-        SIGNER_KEY_TYPE_HASH_X: CryptoKeyType.encode(:KEY_TYPE_HASH_X)
+        SIGNER_KEY_TYPE_ED25519: 0,
+        SIGNER_KEY_TYPE_PRE_AUTH_TX: 1,
+        SIGNER_KEY_TYPE_HASH_X: 2
+      ]
+  end
+
+  defmodule PublicKey do
+    use Union,
+      spec: [
+        switch: PublicKeyType,
+        cases: [
+          {0, UInt256}
+        ]
+      ]
+  end
+
+  defmodule NodeID do
+    use Union,
+      spec: [
+        switch: PublicKeyType,
+        cases: [
+          {0, UInt256}
+        ]
       ]
   end
 
@@ -39,9 +59,9 @@ defmodule Stellar.Types do
       spec: [
         switch: SignerKeyType,
         cases: [
-          {CryptoKeyType.encode(:KEY_TYPE_ED25519), UInt256},
-          {CryptoKeyType.encode(:KEY_TYPE_PRE_AUTH_TX), UInt256},
-          {CryptoKeyType.encode(:SIGNER_KEY_TYPE_HASH_X), UInt256}
+          {0, UInt256},
+          {1, UInt256},
+          {2, UInt256}
         ]
       ]
   end
