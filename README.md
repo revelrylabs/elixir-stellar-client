@@ -1,6 +1,8 @@
 # Stellar
 
 [![Build Status](https://travis-ci.org/revelrylabs/elixir-stellar-client.svg?branch=master)](https://travis-ci.org/revelrylabs/elixir-stellar-client)
+[![Hex.pm](https://img.shields.io/hexpm/dt/stellar.svg)](https://hex.pm/packages/stellar)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A [Stellar](https://stellar.org) client for Elixir.
 
