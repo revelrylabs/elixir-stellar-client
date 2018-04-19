@@ -51,28 +51,28 @@ defmodule Stellar.Types.LedgerEntries do
       ]
   end
 
+  defmodule AssetCode4 do
+    use FixedOpaque, len: 4
+  end
+
+  defmodule AssetCode12 do
+    use FixedOpaque, len: 12
+  end
+
   defmodule AssetTypeCreditAlphaNum4 do
     use XDR.Type.Struct,
       spec: [
-        assetCode: AssetCode,
+        assetCode: AssetCode4,
         issuer: PublicKey
       ]
-
-    defmodule AssetCode do
-      use FixedOpaque, len: 4
-    end
   end
 
   defmodule AssetTypeCreditAlphaNum12 do
     use XDR.Type.Struct,
       spec: [
-        assetCode: AssetCode,
+        assetCode: AssetCode12,
         issuer: PublicKey
       ]
-
-    defmodule AssetCode do
-      use FixedOpaque, len: 12
-    end
   end
 
   defmodule Price do
