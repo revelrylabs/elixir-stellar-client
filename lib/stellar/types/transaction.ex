@@ -280,101 +280,101 @@ defmodule Stellar.Types.Transaction do
       ]
   end
 
-  defmodule CreateAccountResultCode do
-    use Enum,
-      spec: [
-        CREATE_ACCOUNT_SUCCESS: 0,
-        CREATE_ACCOUNT_MALFORMED: -1,
-        CREATE_ACCOUNT_UNDERFUNDED: -2,
-        CREATE_ACCOUNT_LOW_RESERVE: -3,
-        CREATE_ACCOUNT_ALREADY_EXIST: -4
-      ]
-  end
+  #  defmodule CreateAccountResultCode do
+  #    use Enum,
+  #      spec: [
+  #        CREATE_ACCOUNT_SUCCESS: 0,
+  #        CREATE_ACCOUNT_MALFORMED: -1,
+  #        CREATE_ACCOUNT_UNDERFUNDED: -2,
+  #        CREATE_ACCOUNT_LOW_RESERVE: -3,
+  #        CREATE_ACCOUNT_ALREADY_EXIST: -4
+  #      ]
+  #  end
+  #
+  #  defmodule CreateAccountResult do
+  #    use Union,
+  #      spec: [
+  #        switch: CreateAccountResultCode,
+  #        cases: [
+  #          {0, VOID}
+  #        ]
+  #      ]
+  #  end
 
-  defmodule CreateAccountResult do
-    use Union,
-      spec: [
-        switch: CreateAccountResultCode,
-        cases: [
-          {0, VOID}
-        ]
-      ]
-  end
-
-  defmodule PaymentResultCode do
-    use Enum,
-      spec: [
-        PAYMENT_SUCCESS: 0,
-        PAYMENT_MALFORMED: -1,
-        PAYMENT_UNDERFUNDED: -2,
-        PAYMENT_SRC_NO_TRUST: -3,
-        PAYMENT_SRC_NOT_AUTHORIZED: -4,
-        PAYMENT_NO_DESTINATION: -5,
-        PAYMENT_NO_TRUST: -6,
-        PAYMENT_NOT_AUTHORIZED: -7,
-        PAYMENT_LINE_FULL: -8,
-        PAYMENT_NO_ISSUER: -9
-      ]
-  end
-
-  defmodule PaymentResult do
-    use Union,
-      spec: [
-        switch: PaymentResultCode,
-        cases: [
-          {0, VOID}
-        ]
-      ]
-  end
-
-  defmodule PathPaymentResultCode do
-    use Enum,
-      spec: [
-        PATH_PAYMENT_SUCCESS: 0,
-        PATH_PAYMENT_MALFORMED: -1,
-        PATH_PAYMENT_UNDERFUNDED: -2,
-        PATH_PAYMENT_SRC_NO_TRUST: -3,
-        PATH_PAYMENT_SRC_NOT_AUTHORIZED: -4,
-        PATH_PAYMENT_NO_DESTINATION: -5,
-        PATH_PAYMENT_NO_TRUST: -6,
-        PATH_PAYMENT_NOT_AUTHORIZED: -7,
-        PATH_PAYMENT_LINE_FULL: -8,
-        PATH_PAYMENT_NO_ISSUER: -9,
-        PATH_PAYMENT_TOO_FEW_OFFERS: -10,
-        PATH_PAYMENT_OFFER_CROSS_SELF: -11,
-        PATH_PAYMENT_OVER_SENDMAX: -12
-      ]
-  end
-
-  defmodule SimplePaymentResult do
-    use XDR.Type.Struct,
-      spec: [
-        destination: PublicKey,
-        asset: Asset,
-        amount: HyperInt
-      ]
-  end
-
-  defmodule PathPaymentResult do
-    use Union,
-      spec: [
-        switch: PathPaymentResultCode,
-        cases: [
-          {0, PaymentSuccess},
-          {-9, Asset}
-        ]
-      ]
-
-    defmodule PaymentSuccess do
-      use XDR.Type.Struct,
-        spec: [
-          offers: ClaimOfferAtoms,
-          last: SimplePaymentResult
-        ]
-
-      defmodule ClaimOfferAtoms do
-        use VariableArray, spec: [type: ClaimOfferAtom]
-      end
-    end
-  end
+  #  defmodule PaymentResultCode do
+  #    use Enum,
+  #      spec: [
+  #        PAYMENT_SUCCESS: 0,
+  #        PAYMENT_MALFORMED: -1,
+  #        PAYMENT_UNDERFUNDED: -2,
+  #        PAYMENT_SRC_NO_TRUST: -3,
+  #        PAYMENT_SRC_NOT_AUTHORIZED: -4,
+  #        PAYMENT_NO_DESTINATION: -5,
+  #        PAYMENT_NO_TRUST: -6,
+  #        PAYMENT_NOT_AUTHORIZED: -7,
+  #        PAYMENT_LINE_FULL: -8,
+  #        PAYMENT_NO_ISSUER: -9
+  #      ]
+  #  end
+  #
+  #  defmodule PaymentResult do
+  #    use Union,
+  #      spec: [
+  #        switch: PaymentResultCode,
+  #        cases: [
+  #          {0, VOID}
+  #        ]
+  #      ]
+  #  end
+  #
+  #  defmodule PathPaymentResultCode do
+  #    use Enum,
+  #      spec: [
+  #        PATH_PAYMENT_SUCCESS: 0,
+  #        PATH_PAYMENT_MALFORMED: -1,
+  #        PATH_PAYMENT_UNDERFUNDED: -2,
+  #        PATH_PAYMENT_SRC_NO_TRUST: -3,
+  #        PATH_PAYMENT_SRC_NOT_AUTHORIZED: -4,
+  #        PATH_PAYMENT_NO_DESTINATION: -5,
+  #        PATH_PAYMENT_NO_TRUST: -6,
+  #        PATH_PAYMENT_NOT_AUTHORIZED: -7,
+  #        PATH_PAYMENT_LINE_FULL: -8,
+  #        PATH_PAYMENT_NO_ISSUER: -9,
+  #        PATH_PAYMENT_TOO_FEW_OFFERS: -10,
+  #        PATH_PAYMENT_OFFER_CROSS_SELF: -11,
+  #        PATH_PAYMENT_OVER_SENDMAX: -12
+  #      ]
+  #  end
+  #
+  #  defmodule SimplePaymentResult do
+  #    use XDR.Type.Struct,
+  #      spec: [
+  #        destination: PublicKey,
+  #        asset: Asset,
+  #        amount: HyperInt
+  #      ]
+  #  end
+  #
+  #  defmodule PathPaymentResult do
+  #    use Union,
+  #      spec: [
+  #        switch: PathPaymentResultCode,
+  #        cases: [
+  #          {0, PaymentSuccess},
+  #          {-9, Asset}
+  #        ]
+  #      ]
+  #
+  #    defmodule PaymentSuccess do
+  #      use XDR.Type.Struct,
+  #        spec: [
+  #          offers: ClaimOfferAtoms,
+  #          last: SimplePaymentResult
+  #        ]
+  #
+  #      defmodule ClaimOfferAtoms do
+  #        use VariableArray, spec: [type: ClaimOfferAtom]
+  #      end
+  #    end
+  #  end
 end
