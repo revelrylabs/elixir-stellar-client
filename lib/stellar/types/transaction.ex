@@ -13,7 +13,8 @@ defmodule Stellar.Types.Transaction do
     Uint
   }
 
-  alias Stellar.Types.{SignatureHint, Signature, PublicKey, Hash}
+  alias Stellar.Types.{SignatureHint, Signature, Hash}
+  alias Stellar.Types.PublicKey, as: AccountID
 
   alias Stellar.Types.LedgerEntries.{
     Asset,
@@ -55,7 +56,7 @@ defmodule Stellar.Types.Transaction do
   defmodule CreateAccountOp do
     use XDR.Type.Struct,
       spec: [
-        destination: PublicKey,
+        destination: AccountID,
         startingBalance: HyperInt
       ]
   end
@@ -63,7 +64,7 @@ defmodule Stellar.Types.Transaction do
   defmodule PaymentOp do
     use XDR.Type.Struct,
       spec: [
-        destination: PublicKey,
+        destination: AccountID,
         asset: Asset,
         amount: HyperInt
       ]
@@ -74,7 +75,7 @@ defmodule Stellar.Types.Transaction do
       spec: [
         sendAsset: Asset,
         sendMax: HyperInt,
-        destination: PublicKey,
+        destination: AccountID,
         destinationAsset: Asset,
         destinationAmount: HyperInt,
         path: AssetPaths
@@ -109,7 +110,7 @@ defmodule Stellar.Types.Transaction do
   defmodule SetOptionsOp do
     use XDR.Type.Struct,
       spec: [
-        inflationDest: PublicKey,
+        inflationDest: AccountID,
         clearFlags: Uint,
         setFlags: Uint,
         masterWeight: Uint,
@@ -132,7 +133,7 @@ defmodule Stellar.Types.Transaction do
   defmodule AllowTrustOp do
     use XDR.Type.Struct,
       spec: [
-        trustor: PublicKey,
+        trustor: AccountID,
         asset: Asset
       ]
 
@@ -159,7 +160,7 @@ defmodule Stellar.Types.Transaction do
   defmodule Operation do
     use XDR.Type.Struct,
       spec: [
-        sourceAccount: PublicKey,
+        sourceAccount: AccountID,
         body: OperationUnion
       ]
 
@@ -176,7 +177,7 @@ defmodule Stellar.Types.Transaction do
             {5, SetOptionsOp},
             {6, ChangeTrustOp},
             {7, AllowTrustOp},
-            {8, PublicKey},
+            {8, AccountID},
             {9, Void},
             {10, ManageDataOp}
           ]
@@ -224,7 +225,7 @@ defmodule Stellar.Types.Transaction do
   defmodule Transaction do
     use XDR.Type.Struct,
       spec: [
-        sourceAccount: PublicKey,
+        sourceAccount: AccountID,
         fee: Int,
         seqNum: HyperUint,
         timeBounds: TimeBounds,
@@ -271,7 +272,7 @@ defmodule Stellar.Types.Transaction do
   defmodule ClaimOfferAtom do
     use XDR.Type.Struct,
       spec: [
-        sellerID: PublicKey,
+        sellerID: AccountID,
         offerID: HyperUint,
         assetSold: Asset,
         amountSold: HyperInt,
@@ -349,7 +350,7 @@ defmodule Stellar.Types.Transaction do
   #  defmodule SimplePaymentResult do
   #    use XDR.Type.Struct,
   #      spec: [
-  #        destination: PublicKey,
+  #        destination: AccountID,
   #        asset: Asset,
   #        amount: HyperInt
   #      ]

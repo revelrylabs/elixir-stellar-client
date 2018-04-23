@@ -44,15 +44,7 @@ defmodule Stellar.Types do
       ]
   end
 
-  defmodule NodeID do
-    use Union,
-      spec: [
-        switch: PublicKeyType,
-        cases: [
-          {0, UInt256}
-        ]
-      ]
-  end
+  alias PublicKey, as: NodeID
 
   defmodule SignerKey do
     use Union,

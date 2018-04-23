@@ -12,7 +12,8 @@ defmodule Stellar.Types.LedgerEntries do
     VariableArray
   }
 
-  alias Stellar.Types.{PublicKey, SignerKey}
+  alias Stellar.Types.SignerKey
+  alias Stellar.Types.PublicKey, as: AccountID
 
   defmodule Thresholds do
     use FixedOpaque, len: 4
@@ -63,7 +64,7 @@ defmodule Stellar.Types.LedgerEntries do
     use XDR.Type.Struct,
       spec: [
         assetCode: AssetCode4,
-        issuer: PublicKey
+        issuer: AccountID
       ]
   end
 
@@ -71,7 +72,7 @@ defmodule Stellar.Types.LedgerEntries do
     use XDR.Type.Struct,
       spec: [
         assetCode: AssetCode12,
-        issuer: PublicKey
+        issuer: AccountID
       ]
   end
 
@@ -123,11 +124,11 @@ defmodule Stellar.Types.LedgerEntries do
   defmodule AccountEntry do
     use XDR.Type.Struct,
       spec: [
-        accountID: PublicKey,
+        accountID: AccountID,
         balance: HyperInt,
         seqNum: HyperUint,
         numSubEntries: Uint,
-        inflationDest: PublicKey,
+        inflationDest: AccountID,
         flags: Uint,
         homeDomain: XDR.Type.String,
         thresholds: Thresholds,
@@ -160,7 +161,7 @@ defmodule Stellar.Types.LedgerEntries do
   defmodule TrustLineEntry do
     use XDR.Type.Struct,
       spec: [
-        accountID: PublicKey,
+        accountID: AccountID,
         asset: Asset,
         balance: HyperInt,
         limit: HyperInt,
@@ -179,7 +180,7 @@ defmodule Stellar.Types.LedgerEntries do
   defmodule OfferEntry do
     use XDR.Type.Struct,
       spec: [
-        sellerID: PublicKey,
+        sellerID: AccountID,
         offerID: HyperUint,
         selling: Asset,
         buying: Asset,
@@ -193,7 +194,7 @@ defmodule Stellar.Types.LedgerEntries do
   defmodule DataEntry do
     use XDR.Type.Struct,
       spec: [
-        accountID: PublicKey,
+        accountID: AccountID,
         dataName: String64,
         dataValue: DataValue,
         ext: Ext
