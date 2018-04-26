@@ -176,7 +176,7 @@ defmodule Stellar.XDR.XFileParser do
     |> optional(ignoreables)
     |> ignore(string("{"))
     |> optional(ignoreables)
-    |> repeat_until(parsec(:case), [string("}")])
+    |> repeat_until(choice([parsec(:case), parsec(:default)]), [string("}")])
     |> ignore(string("}"))
     |> optional(ignoreables)
     |> parsec(:identifier)
@@ -226,7 +226,7 @@ defmodule Stellar.XDR.XFileParser do
     |> choice([parsec(:number), parsec(:identifier)])
     |> ignore(string(":"))
     |> optional(ignoreables)
-    |> choice([parsec(:inline_struct), parsec(:def), parsec(:type)])
+    |> choice([parsec(:inline_union_member), parsec(:inline_struct), parsec(:def), parsec(:type)])
     |> optional(ignoreables)
     |> optional(ignore(string(";")))
     |> optional(ignoreables)
@@ -235,7 +235,8 @@ defmodule Stellar.XDR.XFileParser do
 
   defparsecp(
     :default,
-    ignore(string("default:"))
+    ignore(string("default"))
+    |> ignore(string(":"))
     |> optional(ignoreables)
     |> choice([parsec(:inline_struct), parsec(:def), parsec(:type)])
     |> optional(ignoreables)

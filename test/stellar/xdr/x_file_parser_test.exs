@@ -148,7 +148,7 @@ defmodule Stellar.XDR.XFileParser.Test do
       |> Path.join()
       |> XFileParser.parse_from_path()
 
-    assert {:ok, _, _, _, _, _} = result
+    assert {:ok, _, "", %{}, _, _} = result
   end
 
   test "Stellar-ledger-entries" do
@@ -157,7 +157,7 @@ defmodule Stellar.XDR.XFileParser.Test do
       |> Path.join()
       |> XFileParser.parse_from_path()
 
-    assert {:ok, _, _, _, _, _} = result
+    assert {:ok, _, "", %{}, _, _} = result
   end
 
   test "Stellar-transaction" do
@@ -166,6 +166,6 @@ defmodule Stellar.XDR.XFileParser.Test do
       |> Path.join()
       |> XFileParser.parse_from_path()
 
-    assert {:ok, [], _, _, _, _} = result
+    assert {:ok, _, "", %{}, _, _} = result
   end
 end

@@ -492,6 +492,7 @@ struct ManageOfferSuccessResult
     union switch (ManageOfferEffect effect)
     {
     case MANAGE_OFFER_CREATED:
+        OfferEntry offer;
     case MANAGE_OFFER_UPDATED:
         OfferEntry offer;
     default:
@@ -715,6 +716,7 @@ struct TransactionResult
     union switch (TransactionResultCode code)
     {
     case txSUCCESS:
+        OperationResult results<>;
     case txFAILED:
         OperationResult results<>;
     default:
