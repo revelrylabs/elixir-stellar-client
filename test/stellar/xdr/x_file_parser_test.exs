@@ -168,4 +168,31 @@ defmodule Stellar.XDR.XFileParser.Test do
 
     assert {:ok, _, "", %{}, _, _} = result
   end
+
+  test "Stellar-ledger" do
+    result =
+      [:code.priv_dir(:stellar), "xdr", "Stellar-ledger.x"]
+      |> Path.join()
+      |> XFileParser.parse_from_path()
+
+    assert {:ok, _, "", %{}, _, _} = result
+  end
+
+  test "Stellar-overlay" do
+    result =
+      [:code.priv_dir(:stellar), "xdr", "Stellar-overlay.x"]
+      |> Path.join()
+      |> XFileParser.parse_from_path()
+
+    assert {:ok, _, "", %{}, _, _} = result
+  end
+
+  test "Stellar-SCP" do
+    result =
+      [:code.priv_dir(:stellar), "xdr", "Stellar-SCP.x"]
+      |> Path.join()
+      |> XFileParser.parse_from_path()
+
+    assert {:ok, _, "", %{}, _, _} = result
+  end
 end
