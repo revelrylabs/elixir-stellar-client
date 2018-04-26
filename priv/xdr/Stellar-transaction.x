@@ -207,7 +207,7 @@ Result: InflationResult
 */
 
 /* ManageData
-    Adds, Updates, or Deletes a key value pair associated with a particular 
+    Adds, Updates, or Deletes a key value pair associated with a particular
 	account.
 
     Threshold: med
@@ -217,7 +217,7 @@ Result: InflationResult
 
 struct ManageDataOp
 {
-    string64 dataName; 
+    string64 dataName;
     DataValue* dataValue;   // set to null to clear
 };
 

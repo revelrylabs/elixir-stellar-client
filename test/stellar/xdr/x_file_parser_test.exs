@@ -142,93 +142,30 @@ defmodule Stellar.XDR.XFileParser.Test do
     assert {:ok, _, _, _, _, _} = XFileParser.parse(idl)
   end
 
-  test "all" do
-    idl = """
-    // Copyright 2015 Stellar Development Foundation and contributors. Licensed
-    // under the Apache License, Version 2.0. See the COPYING file at the root
-    // of this distribution or at http://www.apache.org/licenses/LICENSE-2.0
+  test "Stellar-types" do
+    result =
+      [:code.priv_dir(:stellar), "xdr", "Stellar-types.x"]
+      |> Path.join()
+      |> XFileParser.parse_from_path()
 
-    %#include "xdr/Stellar-types.h"
+    assert {:ok, _, _, _, _, _} = result
+  end
 
-    namespace stellar
-    {
+  test "Stellar-ledger-entries" do
+    result =
+      [:code.priv_dir(:stellar), "xdr", "Stellar-ledger-entries.x"]
+      |> Path.join()
+      |> XFileParser.parse_from_path()
 
-    typedef opaque Hash[32];
-    typedef opaque uint256[32];
+    assert {:ok, _, _, _, _, _} = result
+  end
 
-    typedef unsigned int uint32;
-    typedef int int32;
+  test "Stellar-transaction" do
+    result =
+      [:code.priv_dir(:stellar), "xdr", "Stellar-transaction.x"]
+      |> Path.join()
+      |> XFileParser.parse_from_path()
 
-    typedef unsigned hyper uint64;
-    typedef hyper int64;
-
-    enum CryptoKeyType
-    {
-    KEY_TYPE_ED25519 = 0,
-    KEY_TYPE_PRE_AUTH_TX = 1,
-    KEY_TYPE_HASH_X = 2
-    };
-
-    enum PublicKeyType
-    {
-    PUBLIC_KEY_TYPE_ED25519 = KEY_TYPE_ED25519
-    };
-
-    enum SignerKeyType
-    {
-    SIGNER_KEY_TYPE_ED25519 = KEY_TYPE_ED25519,
-    SIGNER_KEY_TYPE_PRE_AUTH_TX = KEY_TYPE_PRE_AUTH_TX,
-    SIGNER_KEY_TYPE_HASH_X = KEY_TYPE_HASH_X
-    };
-
-    union PublicKey switch (PublicKeyType type)
-    {
-    case PUBLIC_KEY_TYPE_ED25519:
-    uint256 ed25519;
-    };
-
-    union SignerKey switch (SignerKeyType type)
-    {
-    case SIGNER_KEY_TYPE_ED25519:
-    uint256 ed25519;
-    case SIGNER_KEY_TYPE_PRE_AUTH_TX:
-    /* Hash of Transaction structure */
-    uint256 preAuthTx;
-    case SIGNER_KEY_TYPE_HASH_X:
-    /* Hash of random 256 bit preimage X */
-    uint256 hashX;
-    };
-
-    // variable size as the size depends on the signature scheme used
-    typedef opaque Signature<64>;
-
-    typedef opaque SignatureHint[4];
-
-    typedef PublicKey NodeID;
-
-    struct Curve25519Secret
-    {
-        opaque key[32];
-    };
-
-    struct Curve25519Public
-    {
-        opaque key[32];
-    };
-
-    struct HmacSha256Key
-    {
-        opaque key[32];
-    };
-
-    struct HmacSha256Mac
-    {
-        opaque mac[32];
-    };
-
-    }
-    """
-
-    assert {:ok, _, _, _, _, _} = XFileParser.parse(idl)
+    assert {:ok, [], _, _, _, _} = result
   end
 end

@@ -12,7 +12,7 @@ typedef opaque Thresholds[4];
 typedef string string32<32>;
 typedef string string64<64>;
 typedef uint64 SequenceNumber;
-typedef opaque DataValue<64>; 
+typedef opaque DataValue<64>;
 
 enum AssetType
 {

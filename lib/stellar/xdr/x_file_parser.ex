@@ -27,6 +27,7 @@ defmodule Stellar.XDR.XFileParser do
 
   ignoreables =
     choice([
+      string("\t"),
       string(" "),
       string("\n"),
       parsec(:single_line_comment),
@@ -35,14 +36,31 @@ defmodule Stellar.XDR.XFileParser do
     |> times(min: 1)
     |> ignore
 
-  defp parse_integer(int), do: Integer.parse(int) |> elem(0)
+  defp parse_integer(int), do: int |> Integer.parse() |> elem(0)
+
+  defparsecp(
+    :integer,
+    optional(string("-"))
+    |> utf8_string([?0..?9], min: 1)
+    |> reduce({Enum, :join, []})
+    |> map({:parse_integer, []})
+  )
+
+  defp parse_octet(int), do: int |> Integer.parse(8) |> elem(0)
+
+  defparsecp(
+    :octet,
+    ignore(string("0x"))
+    |> utf8_string([?0..?9], min: 1)
+    |> map({:parse_octet, []})
+  )
 
   defparsecp(
     :number,
-    optional(string("-"))
-    |> optional(ignoreables)
-    |> utf8_string([?0..?9], min: 1)
-    |> map({:parse_integer, []})
+    choice([
+      parsec(:octet),
+      parsec(:integer)
+    ])
   )
 
   defparsecp(
@@ -51,6 +69,13 @@ defmodule Stellar.XDR.XFileParser do
     |> parsec(:number)
     |> ignore(string("]"))
     |> unwrap_and_tag(:fixed_size)
+  )
+
+  defparsecp(
+    :unknown_variable_size,
+    ignore(string("<"))
+    |> ignore(string(">"))
+    |> tag(:variable_size)
   )
 
   defparsecp(
@@ -67,7 +92,8 @@ defmodule Stellar.XDR.XFileParser do
     |> optional(
       choice([
         parsec(:fixed_size),
-        parsec(:variable_size)
+        parsec(:variable_size),
+        parsec(:unknown_variable_size)
       ])
     )
     |> tag(:identifier)
@@ -198,7 +224,6 @@ defmodule Stellar.XDR.XFileParser do
     ignore(string("case"))
     |> optional(ignoreables)
     |> choice([parsec(:number), parsec(:identifier)])
-    |> optional(ignoreables)
     |> ignore(string(":"))
     |> optional(ignoreables)
     |> choice([parsec(:inline_struct), parsec(:def), parsec(:type)])
@@ -206,6 +231,17 @@ defmodule Stellar.XDR.XFileParser do
     |> optional(ignore(string(";")))
     |> optional(ignoreables)
     |> tag(:case)
+  )
+
+  defparsecp(
+    :default,
+    ignore(string("default:"))
+    |> optional(ignoreables)
+    |> choice([parsec(:inline_struct), parsec(:def), parsec(:type)])
+    |> optional(ignoreables)
+    |> optional(ignore(string(";")))
+    |> optional(ignoreables)
+    |> tag(:default)
   )
 
   defparsecp(
@@ -232,7 +268,7 @@ defmodule Stellar.XDR.XFileParser do
     |> optional(ignoreables)
     |> ignore(string("{"))
     |> optional(ignoreables)
-    |> repeat_until(parsec(:case), [string("}")])
+    |> repeat_until(choice([parsec(:case), parsec(:default)]), [string("}")])
     |> ignore(string("}"))
     |> optional(ignoreables)
     |> optional(ignore(string(";")))
@@ -247,6 +283,8 @@ defmodule Stellar.XDR.XFileParser do
     |> ignore(string("\""))
     |> repeat_until(utf8_string([not: ?"], min: 1), [string("\"")])
     |> ignore(string("\""))
+    |> optional(ignoreables)
+    |> optional(ignore(string(";")))
     |> optional(ignoreables)
     |> unwrap_and_tag(:include)
   )
@@ -282,4 +320,10 @@ defmodule Stellar.XDR.XFileParser do
     |> times(min: 1)
 
   defparsec(:parse, parser)
+
+  def parse_from_path(path) do
+    path
+    |> File.read!()
+    |> parse()
+  end
 end
