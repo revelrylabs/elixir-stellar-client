@@ -1,30 +1,36 @@
 defmodule Stellar.XDR.TypeBuilder do
-  alias Stellar.XDR.XFileParser
+  alias Stellar.XDR.{XFileParser, ASTProcessor}
 
   defmacro __before_compile__(_) do
+    values = build()
+
     quote do
-      defmodule Foo do
-        def hello() do
-          "hi"
-        end
-      end
+      (unquote_splicing(values))
     end
   end
 
   def build() do
-    xdr_file_paths = get_x_file_paths()
-    Enum.each(xdr_file_paths, &process_x_file_path(&1))
+    Enum.map(get_x_file_paths(), &process_x_file_path(&1))
   end
 
   defp get_x_file_paths() do
-    [:code.priv_dir(:stellar), "xdr", "*.x"]
-    |> Path.join()
-    |> Path.wildcard()
-    |> Enum.reverse()
+    path = [:code.priv_dir(:stellar), "xdr"]
+
+    files = [
+      "Stellar-types.x"
+      # "Stellar-ledger-entries.x",
+      # "Stellar-transaction.x",
+      # "Stellar-ledger.x",
+      # "Stellar-overlay.x",
+      # "Stellar-SCP.x"
+    ]
+
+    Enum.map(files, fn file -> Path.join(path ++ [file]) end)
   end
 
   def process_x_file_path(path) do
-    path
-    |> XFileParser.parse_from_path()
+    {:ok, ast, _, _, _, _} = XFileParser.parse_from_path(path)
+
+    ASTProcessor.process(ast)
   end
 end
