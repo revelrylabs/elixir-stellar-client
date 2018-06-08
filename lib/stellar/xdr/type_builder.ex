@@ -17,12 +17,12 @@ defmodule Stellar.XDR.TypeBuilder do
     path = [:code.priv_dir(:stellar), "xdr"]
 
     files = [
-      "Stellar-types.x"
-      # "Stellar-ledger-entries.x",
-      # "Stellar-transaction.x",
-      # "Stellar-ledger.x",
-      # "Stellar-overlay.x",
-      # "Stellar-SCP.x"
+      "Stellar-types.x",
+      "Stellar-ledger-entries.x",
+      "Stellar-transaction.x",
+      "Stellar-ledger.x",
+      "Stellar-overlay.x",
+      "Stellar-SCP.x"
     ]
 
     Enum.map(files, fn file -> Path.join(path ++ [file]) end)
