@@ -110,6 +110,19 @@ defmodule Stellar.XDR.ASTProcessor do
     end
   end
 
+  defp do_process(
+         {:member,
+          [
+            identifier: [case_identifier],
+            type: type,
+            identifier: [type_identifier]
+          ]}
+       ) do
+    quote do
+      {unquote(String.to_atom(case_identifier)), unquote(String.to_atom(type))}
+    end
+  end
+
   defp do_process(value) when is_integer(value) do
     value
   end
