@@ -256,16 +256,16 @@ defmodule Stellar.XDR.Types.Transaction do
     end
   end
 
+  defmodule DecoratedSignatures do
+    use VariableArray, spec: [max_len: 20, type: DecoratedSignature]
+  end
+
   defmodule TransactionEnvelope do
     use XDR.Type.Struct,
       spec: [
         tx: Transaction,
         signatures: DecoratedSignatures
       ]
-
-    defmodule DecoratedSignatures do
-      use VariableArray, spec: [max_len: 20, type: DecoratedSignature]
-    end
   end
 
   defmodule ClaimOfferAtom do

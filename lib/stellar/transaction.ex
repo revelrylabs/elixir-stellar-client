@@ -1,7 +1,7 @@
 defmodule Stellar.Transaction do
   alias Stellar.XDR.Types.Transaction.{
     TransactionEnvelope,
-    Transaction.DecoratedSignatures
+    DecoratedSignatures
   }
 
   def sign(transaction, secrets) do
