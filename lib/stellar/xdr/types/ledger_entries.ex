@@ -1,4 +1,4 @@
-defmodule Stellar.Types.LedgerEntries do
+defmodule Stellar.XDR.Types.LedgerEntries do
   alias XDR.Type.{
     FixedOpaque,
     Enum,
@@ -12,8 +12,8 @@ defmodule Stellar.Types.LedgerEntries do
     VariableArray
   }
 
-  alias Stellar.Types.SignerKey
-  alias Stellar.Types.PublicKey, as: AccountID
+  alias Stellar.XDR.Types.SignerKey
+  alias Stellar.XDR.Types.PublicKey, as: AccountID
 
   defmodule Thresholds do
     use FixedOpaque, len: 4

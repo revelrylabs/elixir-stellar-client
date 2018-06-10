@@ -1,9 +1,7 @@
-defmodule Stellar.Types.Transaction do
+defmodule Stellar.XDR.Types.Transaction do
   alias XDR.Type.{
-    FixedOpaque,
     Enum,
     Union,
-    VariableOpaque,
     Void,
     Int,
     Uint,
@@ -13,8 +11,8 @@ defmodule Stellar.Types.Transaction do
     Uint
   }
 
-  alias Stellar.Types.{SignatureHint, Signature, Hash}
-  alias Stellar.Types.PublicKey, as: AccountID
+  alias Stellar.XDR.Types.{SignatureHint, Signature, Hash}
+  alias Stellar.XDR.Types.PublicKey, as: AccountID
 
   alias Stellar.Types.LedgerEntries.{
     Asset,

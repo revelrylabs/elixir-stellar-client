@@ -45,8 +45,7 @@ defmodule Stellar.MixProject do
       {:ex_doc, "~> 0.18.1", only: :dev},
       {:bypass, "~> 0.8.1", only: :test},
       {:excoveralls, "~> 0.8.0", only: :test},
-      {:xdr, "~> 0.1.1"},
-      {:nimble_parsec, "~> 0.3.1"}
+      {:xdr, "~> 0.1.1"}
     ]
   end
 

@@ -1,4 +1,4 @@
-defmodule Stellar.Types do
+defmodule Stellar.XDR.Types do
   alias XDR.Type.{FixedOpaque, Enum, Union, VariableOpaque}
 
   defmodule Hash do
@@ -43,8 +43,6 @@ defmodule Stellar.Types do
         ]
       ]
   end
-
-  alias PublicKey, as: NodeID
 
   defmodule SignerKey do
     use Union,
