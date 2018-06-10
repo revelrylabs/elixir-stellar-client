@@ -1,5 +1,5 @@
 defmodule Stellar.Transactions.Signer do
-  alias Stellar.XDR.Types.Transaction.{
+  alias Stellar.XDR.{
     TransactionEnvelope,
     DecoratedSignatures,
     Transaction
@@ -37,8 +37,8 @@ defmodule Stellar.Transactions.Signer do
 
   defp signatureBase(transaction) do
     network_id = network_id(Application.get_env(:stellar, :network, :public))
-    envelope = Stellar.XDR.Types.LedgerEntries.EnvelopeType.encode(:ENVELOPE_TYPE_TX)
-    encoded_transaction = Stellar.XDR.Types.Transaction.Transaction.encode(transaction)
+    envelope = Stellar.XDR.EnvelopeType.encode(:ENVELOPE_TYPE_TX)
+    encoded_transaction = Stellar.XDR.Transaction.encode(transaction)
 
     network_id <> envelope <> encoded_transaction
   end

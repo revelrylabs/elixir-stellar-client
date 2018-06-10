@@ -3,15 +3,10 @@ defmodule Stellar.Transactions.Signer.Test do
   alias Stellar.KeyPair
   alias Stellar.Transactions.Signer
 
-  alias Stellar.XDR.Types.Transaction.{
-    TransactionEnvelope,
-    DecoratedSignatures
-  }
-
   describe "sign" do
     test "one signature" do
       {_, secret} = KeyPair.random()
-      transaction = %Stellar.XDR.Types.Transaction.Transaction{}
+      transaction = %Stellar.XDR.Transaction{}
 
       signature =
         Signer.sign(
