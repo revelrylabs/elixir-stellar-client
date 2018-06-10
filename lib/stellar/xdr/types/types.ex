@@ -39,7 +39,7 @@ defmodule Stellar.XDR.Types do
       spec: [
         switch: PublicKeyType,
         cases: [
-          {0, UInt256}
+          PUBLIC_KEY_TYPE_ED25519: UInt256
         ]
       ]
   end
@@ -49,9 +49,9 @@ defmodule Stellar.XDR.Types do
       spec: [
         switch: SignerKeyType,
         cases: [
-          {0, UInt256},
-          {1, UInt256},
-          {2, UInt256}
+          SIGNER_KEY_TYPE_ED25519: UInt256,
+          SIGNER_KEY_TYPE_PRE_AUTH_TX: UInt256,
+          SIGNER_KEY_TYPE_HASH_X: UInt256
         ]
       ]
   end

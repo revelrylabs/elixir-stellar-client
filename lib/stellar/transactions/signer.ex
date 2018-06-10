@@ -1,9 +1,11 @@
-defmodule Stellar.Transaction do
+defmodule Stellar.Transactions.Signer do
   alias Stellar.XDR.Types.Transaction.{
     TransactionEnvelope,
-    DecoratedSignatures
+    DecoratedSignatures,
+    Transaction
   }
 
+  @spec sign(Transaction.t(), binary) :: DecoratedSignatures.t()
   def sign(transaction, secrets) do
     secrets = List.wrap(secrets)
     hashed = hash(signatureBase(transaction))
@@ -11,10 +13,14 @@ defmodule Stellar.Transaction do
     DecoratedSignatures.new(signatures) |> elem(1)
   end
 
+  @spec verify(binary, Transaction.t(), binary) :: boolean
   def verify(signature, transaction, secret) do
-    Ed25519.valid_signature?(signature, transaction, secret)
+    hashed = hash(signatureBase(transaction))
+
+    Ed25519.valid_signature?(signature, hashed, secret)
   end
 
+  @spec toEnvelope(Transaction.t(), DecoratedSignatures.t()) :: TransactionEnvelope.t()
   def toEnvelope(transaction, signatures) do
     envelope = %TransactionEnvelope{
       tx: transaction,
@@ -31,10 +37,10 @@ defmodule Stellar.Transaction do
 
   defp signatureBase(transaction) do
     network_id = network_id(Application.get_env(:stellar, :network, :public))
+    envelope = Stellar.XDR.Types.LedgerEntries.EnvelopeType.encode(:ENVELOPE_TYPE_TX)
+    encoded_transaction = Stellar.XDR.Types.Transaction.Transaction.encode(transaction)
 
-    network_id <>
-      Stellar.XDR.Types.LedgerEntries.EnvelopeType.encode(:ENVELOPE_TYPE_TX) <>
-      Stellar.XDR.Types.Transaction.Transaction.encode(transaction)
+    network_id <> envelope <> encoded_transaction
   end
 
   defp network_id(network) do

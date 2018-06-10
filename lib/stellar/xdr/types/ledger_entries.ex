@@ -45,9 +45,9 @@ defmodule Stellar.XDR.Types.LedgerEntries do
       spec: [
         switch: AssetType,
         cases: [
-          {0, Void},
-          {1, AssetTypeCreditAlphaNum4},
-          {2, AssetTypeCreditAlphaNum12}
+          ASSET_TYPE_NATIVE: Void,
+          ASSET_TYPE_CREDIT_ALPHANUM4: AssetTypeCreditAlphaNum4,
+          ASSET_TYPE_CREDIT_ALPHANUM12: AssetTypeCreditAlphaNum12
         ]
       ]
   end
@@ -214,10 +214,10 @@ defmodule Stellar.XDR.Types.LedgerEntries do
         spec: [
           switch: LedgerEntryType,
           cases: [
-            {0, AccountEntry},
-            {1, TrustLineEntry},
-            {2, OfferEntry},
-            {3, DataEntry}
+            ACCOUNT: AccountEntry,
+            TRUSTLINE: TrustLineEntry,
+            OFFER: OfferEntry,
+            DATA: DataEntry
           ]
         ]
     end

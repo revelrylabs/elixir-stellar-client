@@ -24,7 +24,8 @@ defmodule Stellar.XDR.Types.Transaction do
     String64,
     DataValue,
     Ext,
-    OfferEntry
+    OfferEntry,
+    AssetType
   }
 
   defmodule DecoratedSignature do
@@ -141,8 +142,8 @@ defmodule Stellar.XDR.Types.Transaction do
         spec: [
           switch: AssetType,
           cases: [
-            {1, AssetCode4},
-            {2, AssetCode12}
+            ASSET_TYPE_CREDIT_ALPHANUM4: AssetCode4,
+            ASSET_TYPE_CREDIT_ALPHANUM12: AssetCode12
           ]
         ]
     end
@@ -168,17 +169,17 @@ defmodule Stellar.XDR.Types.Transaction do
         spec: [
           switch: OperationType,
           cases: [
-            {0, CreateAccountOp},
-            {1, PaymentOp},
-            {2, PathPaymentOp},
-            {3, ManageOfferOp},
-            {4, CreatePassiveOfferOp},
-            {5, SetOptionsOp},
-            {6, ChangeTrustOp},
-            {7, AllowTrustOp},
-            {8, AccountID},
-            {9, Void},
-            {10, ManageDataOp}
+            CREATE_ACCOUNT: CreateAccountOp,
+            PAYMENT: PaymentOp,
+            PATH_PAYMENT: PathPaymentOp,
+            MANAGE_OFFER: ManageOfferOp,
+            CREATE_PASSIVE_OFFER: CreatePassiveOfferOp,
+            SET_OPTIONS: SetOptionsOp,
+            CHANGE_TRUST: ChangeTrustOp,
+            ALLOW_TRUST: AllowTrustOp,
+            ACCOUNT_MERGE: AccountID,
+            INFLATION: Void,
+            MANAGE_DATA: ManageDataOp
           ]
         ]
     end
@@ -204,11 +205,11 @@ defmodule Stellar.XDR.Types.Transaction do
       spec: [
         switch: MemoType,
         cases: [
-          {0, Void},
-          {1, Text},
-          {2, HyperUint},
-          {3, Hash},
-          {4, Hash}
+          MEMO_NONE: Void,
+          MEMO_TEXT: Text,
+          MEMO_ID: HyperUint,
+          MEMO_HASH: Hash,
+          MEMO_RETURN: Hash
         ]
       ]
   end
@@ -248,9 +249,9 @@ defmodule Stellar.XDR.Types.Transaction do
     defmodule TaggedTransaction do
       use Union,
         spec: [
-          switch: MemoType,
+          switch: EnvelopeType,
           cases: [
-            {0, Transaction}
+            ENVELOPE_TYPE_TX: Transaction
           ]
         ]
     end
@@ -296,8 +297,9 @@ defmodule Stellar.XDR.Types.Transaction do
       spec: [
         switch: CreateAccountResultCode,
         cases: [
-          {0, VOID}
-        ]
+          CREATE_ACCOUNT_SUCCESS: Void
+        ],
+        default: Void
       ]
   end
 
@@ -322,8 +324,9 @@ defmodule Stellar.XDR.Types.Transaction do
       spec: [
         switch: PaymentResultCode,
         cases: [
-          {0, VOID}
-        ]
+          PAYMENT_SUCCESS: Void
+        ],
+        default: Void
       ]
   end
 
@@ -360,9 +363,10 @@ defmodule Stellar.XDR.Types.Transaction do
       spec: [
         switch: PathPaymentResultCode,
         cases: [
-          {0, PaymentSuccess},
-          {-9, Asset}
-        ]
+          PATH_PAYMENT_SUCCESS: PaymentSuccess,
+          PATH_PAYMENT_NO_ISSUER: Asset
+        ],
+        default: Void
       ]
 
     defmodule PaymentSuccess do
@@ -422,10 +426,10 @@ defmodule Stellar.XDR.Types.Transaction do
         spec: [
           switch: ManageOfferEffect,
           cases: [
-            {0, OfferEntry},
-            {1, OfferEntry},
-            {2, VOID}
-          ]
+            MANAGE_OFFER_CREATED: OfferEntry,
+            MANAGE_OFFER_UPDATED: OfferEntry
+          ],
+          default: Void
         ]
     end
   end
@@ -435,8 +439,9 @@ defmodule Stellar.XDR.Types.Transaction do
       spec: [
         switch: ManageOfferResultCode,
         cases: [
-          {0, ManageOfferSuccessResult}
-        ]
+          MANAGE_OFFER_SUCCESS: ManageOfferSuccessResult
+        ],
+        default: Void
       ]
   end
 
@@ -461,8 +466,9 @@ defmodule Stellar.XDR.Types.Transaction do
       spec: [
         switch: SetOptionsResultCode,
         cases: [
-          {0, VOID}
-        ]
+          SET_OPTIONS_SUCCESS: Void
+        ],
+        default: Void
       ]
   end
 
@@ -483,8 +489,9 @@ defmodule Stellar.XDR.Types.Transaction do
       spec: [
         switch: ChangeTrustResultCode,
         cases: [
-          {0, VOID}
-        ]
+          CHANGE_TRUST_SUCCESS: Void
+        ],
+        default: Void
       ]
   end
 
@@ -505,8 +512,9 @@ defmodule Stellar.XDR.Types.Transaction do
       spec: [
         switch: AllowTrustResultCode,
         cases: [
-          {0, VOID}
-        ]
+          ALLOW_TRUST_SUCCESS: Void
+        ],
+        default: Void
       ]
   end
 
@@ -526,9 +534,9 @@ defmodule Stellar.XDR.Types.Transaction do
       spec: [
         switch: AccountMergeResultCode,
         cases: [
-          {0, HyperInt},
-          {-1, VOID}
-        ]
+          ACCOUNT_MERGE_SUCCESS: HyperInt
+        ],
+        default: Void
       ]
   end
 
@@ -553,9 +561,9 @@ defmodule Stellar.XDR.Types.Transaction do
       spec: [
         switch: InflationResultCode,
         cases: [
-          {0, Payouts},
-          {-1, VOID}
-        ]
+          INFLATION_SUCCESS: Payouts
+        ],
+        default: Void
       ]
 
     defmodule Payouts do
@@ -579,8 +587,9 @@ defmodule Stellar.XDR.Types.Transaction do
       spec: [
         switch: ManageDataResultCode,
         cases: [
-          {0, VOID}
-        ]
+          MANAGE_DATA_SUCCESS: Void
+        ],
+        default: Void
       ]
   end
 
@@ -598,8 +607,9 @@ defmodule Stellar.XDR.Types.Transaction do
       spec: [
         switch: OperationResultCode,
         cases: [
-          {0, OperationResultInner}
-        ]
+          opINNER: OperationResultInner
+        ],
+        default: Void
       ]
 
     defmodule OperationResultInner do
@@ -607,17 +617,17 @@ defmodule Stellar.XDR.Types.Transaction do
         spec: [
           switch: OperationType,
           cases: [
-            {0, CreateAccountResult},
-            {1, PaymentResult},
-            {2, PathPaymentResult},
-            {3, ManageOfferResult},
-            {4, ManageOfferResult},
-            {5, SetOptionsResult},
-            {6, ChangeTrustResult},
-            {7, AllowTrustResult},
-            {8, AccountMergeResult},
-            {9, InflationResult},
-            {10, ManageDataResult}
+            CREATE_ACCOUNT: CreateAccountResult,
+            PAYMENT: PaymentResult,
+            PATH_PAYMENT: PathPaymentResult,
+            MANAGE_OFFER: ManageOfferResult,
+            CREATE_PASSIVE_OFFER: ManageOfferResult,
+            SET_OPTIONS: SetOptionsResult,
+            CHANGE_TRUST: ChangeTrustResult,
+            ALLOW_TRUST: AllowTrustResult,
+            ACCOUNT_MERGE: AccountMergeResult,
+            INFLATION: InflationResult,
+            MANAGE_DATA: ManageDataResult
           ]
         ]
     end
@@ -654,10 +664,10 @@ defmodule Stellar.XDR.Types.Transaction do
         spec: [
           switch: TransactionResultCode,
           cases: [
-            {0, OperationResults},
-            {-1, OperationResults},
-            {-2, VOID}
-          ]
+            txSUCCESS: OperationResults,
+            txFAILED: OperationResults
+          ],
+          default: Void
         ]
 
       defmodule OperationResults do
