@@ -25,7 +25,8 @@ defmodule Stellar.XDR.Types.Transaction do
     DataValue,
     Ext,
     OfferEntry,
-    AssetType
+    AssetType,
+    OptionalAccountID
   }
 
   defmodule DecoratedSignature do
@@ -107,18 +108,30 @@ defmodule Stellar.XDR.Types.Transaction do
       ]
   end
 
+  defmodule OptionalUint do
+    use XDR.Type.Optional, for: Uint
+  end
+
+  defmodule OptionalString32 do
+    use XDR.Type.Optional, for: String32
+  end
+
+  defmodule OptionalSigner do
+    use XDR.Type.Optional, for: Signer
+  end
+
   defmodule SetOptionsOp do
     use XDR.Type.Struct,
       spec: [
         inflationDest: AccountID,
-        clearFlags: Uint,
-        setFlags: Uint,
-        masterWeight: Uint,
-        lowThreshold: Uint,
-        medThreshold: Uint,
-        highThreshold: Uint,
-        homeDomain: String32,
-        signer: Signer
+        clearFlags: OptionalUint,
+        setFlags: OptionalUint,
+        masterWeight: OptionalUint,
+        lowThreshold: OptionalUint,
+        medThreshold: OptionalUint,
+        highThreshold: OptionalUint,
+        homeDomain: OptionalString32,
+        signer: OptionalSigner
       ]
   end
 
@@ -160,7 +173,7 @@ defmodule Stellar.XDR.Types.Transaction do
   defmodule Operation do
     use XDR.Type.Struct,
       spec: [
-        sourceAccount: AccountID,
+        sourceAccount: OptionalAccountID,
         body: OperationUnion
       ]
 
@@ -222,13 +235,17 @@ defmodule Stellar.XDR.Types.Transaction do
       ]
   end
 
+  defmodule OptionalTimeBounds do
+    use XDR.Type.Optional, for: TimeBounds
+  end
+
   defmodule Transaction do
     use XDR.Type.Struct,
       spec: [
         sourceAccount: AccountID,
         fee: Int,
         seqNum: HyperUint,
-        timeBounds: TimeBounds,
+        timeBounds: OptionalTimeBounds,
         memo: Memo,
         operations: Operations,
         ext: Ext

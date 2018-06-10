@@ -15,6 +15,10 @@ defmodule Stellar.XDR.Types.LedgerEntries do
   alias Stellar.XDR.Types.SignerKey
   alias Stellar.XDR.Types.PublicKey, as: AccountID
 
+  defmodule OptionalAccountID do
+    use XDR.Type.Optional, for: AccountID
+  end
+
   defmodule Thresholds do
     use FixedOpaque, len: 4
   end
@@ -128,7 +132,7 @@ defmodule Stellar.XDR.Types.LedgerEntries do
         balance: HyperInt,
         seqNum: HyperUint,
         numSubEntries: Uint,
-        inflationDest: AccountID,
+        inflationDest: OptionalAccountID,
         flags: Uint,
         homeDomain: XDR.Type.String,
         thresholds: Thresholds,
