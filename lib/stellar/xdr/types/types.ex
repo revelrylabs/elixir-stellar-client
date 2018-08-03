@@ -7,31 +7,42 @@ defmodule Stellar.XDR.Types do
     Int,
     Uint,
     Union,
-    VariableOpaque
+    VariableOpaque,
+    Void
   }
 
-  defmodule UInt32 do
-    use Uint
-  end
+  alias XDR.Util.Delegate
 
-  defmodule UInt64 do
-    use HyperUint
+  defmodule Hash do
+    use FixedOpaque, len: 32
   end
 
   defmodule UInt256 do
     use FixedOpaque, len: 32
   end
 
+  defmodule UInt32 do
+    use Delegate, to: Uint
+  end
+
+  defmodule UInt64 do
+    use Delegate, to: HyperUint
+  end
+
   defmodule Int32 do
-    use Int
+    use Delegate, to: Int
   end
 
   defmodule Int64 do
-    use HyperInt
+    use Delegate, to: HyperInt
   end
 
-  defmodule Hash do
-    use FixedOpaque, len: 32
+  defmodule DefaultExt do
+    use Union,
+      switch: Int32,
+      cases: [
+        {0, Void}
+      ]
   end
 
   defmodule CryptoKeyType do
@@ -57,17 +68,21 @@ defmodule Stellar.XDR.Types do
     use Union,
       switch: PublicKeyType,
       cases: [
-        {0, UInt256}
+        PUBLIC_KEY_TYPE_ED25519: UInt256
       ]
+  end
+
+  defmodule NodeID do
+    use Delegate, to: PublicKey
   end
 
   defmodule SignerKey do
     use Union,
       switch: SignerKeyType,
       cases: [
-        {0, UInt256},
-        {1, UInt256},
-        {2, UInt256}
+        SIGNER_KEY_TYPE_ED25519: UInt256,
+        SIGNER_KEY_TYPE_PRE_AUTH_TX: UInt256,
+        SIGNER_KEY_TYPE_HASH_X: UInt256
       ]
   end
 

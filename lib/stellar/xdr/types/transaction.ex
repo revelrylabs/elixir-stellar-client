@@ -1,12 +1,16 @@
 defmodule Stellar.XDR.Types.Transaction do
   alias XDR.Type.{
+    Bool,
     Enum,
+    Optional,
+    Struct,
     Union,
     Void,
     VariableArray
   }
 
   alias Stellar.XDR.Types.{
+    DefaultExt,
     Hash,
     Int32,
     Int64,
@@ -20,12 +24,11 @@ defmodule Stellar.XDR.Types.Transaction do
 
   alias LedgerEntries.{
     Asset,
-    AssetType,
-    AssetCode4,
-    AssetCode12,
     DataValue,
+    EnvelopeType,
     OfferEntry,
     Price,
+    SequenceNumber,
     Signer,
     String32,
     String64
@@ -33,26 +36,10 @@ defmodule Stellar.XDR.Types.Transaction do
 
   alias PublicKey, as: AccountID
 
-  defmodule Ext do
-    use Union,
-      switch: Int32,
-      cases: [
-        {0, Void}
-      ]
-  end
-
   defmodule DecoratedSignature do
-    use XDR.Type.Struct,
+    use Struct,
       hint: SignatureHint,
       signature: Signature
-  end
-
-  defmodule DecoratedSignatures do
-    use VariableArray, max_len: 20, type: DecoratedSignature
-  end
-
-  defmodule AssetPaths do
-    use VariableArray, max_len: 5, type: Asset
   end
 
   defmodule OperationType do
@@ -67,24 +54,29 @@ defmodule Stellar.XDR.Types.Transaction do
       ALLOW_TRUST: 7,
       ACCOUNT_MERGE: 8,
       INFLATION: 9,
-      MANAGE_DATA: 10
+      MANAGE_DATA: 10,
+      BUMP_SEQUENCE: 11
   end
 
   defmodule CreateAccountOp do
-    use XDR.Type.Struct,
+    use Struct,
       destination: AccountID,
       startingBalance: Int64
   end
 
   defmodule PaymentOp do
-    use XDR.Type.Struct,
+    use Struct,
       destination: AccountID,
       asset: Asset,
       amount: Int64
   end
 
+  defmodule AssetPaths do
+    use VariableArray, max_len: 5, type: Asset
+  end
+
   defmodule PathPaymentOp do
-    use XDR.Type.Struct,
+    use Struct,
       sendAsset: Asset,
       sendMax: Int64,
       destination: AccountID,
@@ -94,7 +86,7 @@ defmodule Stellar.XDR.Types.Transaction do
   end
 
   defmodule ManageOfferOp do
-    use XDR.Type.Struct,
+    use Struct,
       selling: Asset,
       buying: Asset,
       amount: Int64,
@@ -103,79 +95,89 @@ defmodule Stellar.XDR.Types.Transaction do
   end
 
   defmodule CreatePassiveOfferOp do
-    use XDR.Type.Struct,
+    use Struct,
       selling: Asset,
       buying: Asset,
       amount: Int64,
       price: Price
   end
 
+  defmodule OptionalUInt32 do
+    use Optional, for: UInt32
+  end
+
+  defmodule OptionalString32 do
+    use Optional, for: String32
+  end
+
+  defmodule OptionalSigner do
+    use Optional, for: Signer
+  end
+
   defmodule SetOptionsOp do
-    use XDR.Type.Struct,
+    use Struct,
       inflationDest: AccountID,
-      clearFlags: UInt32,
-      setFlags: UInt32,
-      masterWeight: UInt32,
-      lowThreshold: UInt32,
-      medThreshold: UInt32,
-      highThreshold: UInt32,
-      homeDomain: String32,
-      signer: Signer
+      clearFlags: OptionalUInt32,
+      setFlags: OptionalUInt32,
+      masterWeight: OptionalUInt32,
+      lowThreshold: OptionalUInt32,
+      medThreshold: OptionalUInt32,
+      highThreshold: OptionalUInt32,
+      homeDomain: OptionalString32,
+      signer: OptionalSigner
   end
 
   defmodule ChangeTrustOp do
-    use XDR.Type.Struct,
+    use Struct,
       line: Asset,
       limit: Int64
   end
 
-  defmodule Asset do
-    use Union,
-      switch: AssetType,
-      cases: [
-        {1, AssetCode4},
-        {2, AssetCode12}
-      ]
+  defmodule AllowTrustOp do
+    use Struct,
+      trustor: AccountID,
+      asset: Asset,
+      authorize: Bool
   end
 
-  defmodule AllowTrustOp do
-    use XDR.Type.Struct,
-      trustor: AccountID,
-      asset: Asset
+  defmodule OptionalDataValue do
+    use Optional, for: DataValue
   end
 
   defmodule ManageDataOp do
-    use XDR.Type.Struct,
+    use Struct,
       dataName: String64,
-      dataValue: DataValue
+      dataValue: OptionalDataValue
   end
 
-  defmodule OperationUnion do
+  defmodule BumpSequenceOp do
+    use Struct,
+      bumpTo: SequenceNumber
+  end
+
+  defmodule OperationBody do
     use Union,
       switch: OperationType,
       cases: [
-        {0, CreateAccountOp},
-        {1, PaymentOp},
-        {2, PathPaymentOp},
-        {3, ManageOfferOp},
-        {4, CreatePassiveOfferOp},
-        {5, SetOptionsOp},
-        {6, ChangeTrustOp},
-        {7, AllowTrustOp},
-        {8, AccountID},
-        {9, Void},
-        {10, ManageDataOp}
+        CREATE_ACCOUNT: CreateAccountOp,
+        PAYMENT: PaymentOp,
+        PATH_PAYMENT: PathPaymentOp,
+        MANAGE_OFFER: ManageOfferOp,
+        CREATE_PASSIVE_OFFER: CreatePassiveOfferOp,
+        SET_OPTIONS: SetOptionsOp,
+        CHANGE_TRUST: ChangeTrustOp,
+        ALLOW_TRUST: AllowTrustOp,
+        ACCOUNT_MERGE: AccountID,
+        INFLATION: Void,
+        MANAGE_DATA: ManageDataOp,
+        BUMP_SEQUENCE: BumpSequenceOp
       ]
   end
 
   defmodule Operation do
-    use XDR.Type.Struct,
+    use Struct,
       sourceAccount: AccountID,
-      body: OperationUnion
-  end
-
-  defmodule Operations do
-    use VariableArray, max_len: 100, type: Operation
+      body: OperationBody
   end
 
   defmodule MemoType do
@@ -187,7 +189,7 @@ defmodule Stellar.XDR.Types.Transaction do
       MEMO_RETURN: 4
   end
 
-  defmodule Text do
+  defmodule MemoText do
     use VariableArray, max_len: 28, type: XDR.Type.String
   end
 
@@ -195,63 +197,71 @@ defmodule Stellar.XDR.Types.Transaction do
     use Union,
       switch: MemoType,
       cases: [
-        {0, Void},
-        {1, Text},
-        {2, UInt64},
-        {3, Hash},
-        {4, Hash}
+        MEMO_NONE: Void,
+        MEMO_TEXT: MemoText,
+        MEMO_ID: UInt64,
+        MEMO_HASH: Hash,
+        MEMO_RETURN: Hash
       ]
   end
 
   defmodule TimeBounds do
-    use XDR.Type.Struct,
+    use Struct,
       minTime: UInt64,
       maxTime: UInt64
   end
 
+  defmodule OptionalTimeBounds do
+    use Optional, for: TimeBounds
+  end
+
+  defmodule Operations do
+    use VariableArray, max_len: 100, type: Operation
+  end
+
   defmodule Transaction do
-    use XDR.Type.Struct,
+    use Struct,
       sourceAccount: AccountID,
       fee: Int32,
       seqNum: UInt64,
-      timeBounds: TimeBounds,
+      timeBounds: OptionalTimeBounds,
       memo: Memo,
       operations: Operations,
-      ext: Ext
+      ext: DefaultExt
   end
 
   defmodule TaggedTransaction do
     use Union,
-      switch: MemoType,
+      switch: EnvelopeType,
       cases: [
-        {0, Transaction}
+        ENVELOPE_TYPE_TX: Transaction
       ]
   end
 
   defmodule TransactionSignaturePayload do
-    use XDR.Type.Struct,
+    use Struct,
       networkId: Hash,
       taggedTransaction: TaggedTransaction
   end
 
+  defmodule DecoratedSignatures do
+    use VariableArray, max_len: 20, type: DecoratedSignature
+  end
+
   defmodule TransactionEnvelope do
-    use XDR.Type.Struct,
+    use Struct,
       tx: Transaction,
       signatures: DecoratedSignatures
   end
 
   defmodule ClaimOfferAtom do
-    use XDR.Type.Struct,
+    use Struct,
       sellerID: AccountID,
       offerID: UInt64,
       assetSold: Asset,
       amountSold: Int64,
       assetBought: Asset,
       amountBought: Int64
-  end
-
-  defmodule ClaimOfferAtoms do
-    use VariableArray, type: ClaimOfferAtom
   end
 
   defmodule CreateAccountResultCode do
@@ -267,8 +277,9 @@ defmodule Stellar.XDR.Types.Transaction do
     use Union,
       switch: CreateAccountResultCode,
       cases: [
-        {0, VOID}
-      ]
+        {0, Void}
+      ],
+      default: Void
   end
 
   defmodule PaymentResultCode do
@@ -289,8 +300,9 @@ defmodule Stellar.XDR.Types.Transaction do
     use Union,
       switch: PaymentResultCode,
       cases: [
-        {0, VOID}
-      ]
+        {0, Void}
+      ],
+      default: Void
   end
 
   defmodule PathPaymentResultCode do
@@ -311,25 +323,29 @@ defmodule Stellar.XDR.Types.Transaction do
   end
 
   defmodule SimplePaymentResult do
-    use XDR.Type.Struct,
+    use Struct,
       destination: AccountID,
       asset: Asset,
       amount: Int64
+  end
+
+  defmodule ClaimOfferAtoms do
+    use VariableArray, type: ClaimOfferAtom
+  end
+
+  defmodule PathPaymentSuccess do
+    use Struct,
+      offers: ClaimOfferAtoms,
+      last: SimplePaymentResult
   end
 
   defmodule PathPaymentResult do
     use Union,
       switch: PathPaymentResultCode,
       cases: [
-        {0, PaymentSuccess},
-        {-9, Asset}
+        PATH_PAYMENT_SUCCESS: PathPaymentSuccess,
+        PATH_PAYMENT_NO_ISSUER: Asset
       ]
-
-    defmodule PaymentSuccess do
-      use XDR.Type.Struct,
-        offers: ClaimOfferAtoms,
-        last: SimplePaymentResult
-    end
   end
 
   defmodule ManageOfferResultCode do
@@ -356,28 +372,29 @@ defmodule Stellar.XDR.Types.Transaction do
       MANAGE_OFFER_DELETED: 2
   end
 
-  defmodule OfferUnion do
+  defmodule ManageOfferEffectData do
     use Union,
       switch: ManageOfferEffect,
       cases: [
-        {0, OfferEntry},
-        {1, OfferEntry},
-        {2, VOID}
+        MANAGE_OFFER_CREATED: OfferEntry,
+        MANAGE_OFFER_UPDATED: OfferEntry,
+        MANAGE_OFFER_DELETED: Void
       ]
   end
 
   defmodule ManageOfferSuccessResult do
-    use XDR.Type.Struct,
+    use Struct,
       offersClaimed: ClaimOfferAtoms,
-      offer: OfferUnion
+      offer: ManageOfferEffectData
   end
 
   defmodule ManageOfferResult do
     use Union,
       switch: ManageOfferResultCode,
       cases: [
-        {0, ManageOfferSuccessResult}
-      ]
+        MANAGE_OFFER_SUCCESS: ManageOfferSuccessResult
+      ],
+      default: Void
   end
 
   defmodule SetOptionsResultCode do
@@ -398,8 +415,9 @@ defmodule Stellar.XDR.Types.Transaction do
     use Union,
       switch: SetOptionsResultCode,
       cases: [
-        {0, VOID}
-      ]
+        SET_OPTIONS_SUCCESS: Void
+      ],
+      default: Void
   end
 
   defmodule ChangeTrustResultCode do
@@ -416,8 +434,9 @@ defmodule Stellar.XDR.Types.Transaction do
     use Union,
       switch: ChangeTrustResultCode,
       cases: [
-        {0, VOID}
-      ]
+        CHANGE_TRUST_SUCCESS: Void
+      ],
+      default: Void
   end
 
   defmodule AllowTrustResultCode do
@@ -434,8 +453,9 @@ defmodule Stellar.XDR.Types.Transaction do
     use Union,
       switch: AllowTrustResultCode,
       cases: [
-        {0, VOID}
-      ]
+        ALLOW_TRUST_SUCCESS: Void
+      ],
+      default: Void
   end
 
   defmodule AccountMergeResultCode do
@@ -451,9 +471,9 @@ defmodule Stellar.XDR.Types.Transaction do
     use Union,
       switch: AccountMergeResultCode,
       cases: [
-        {0, Int64},
-        {-1, VOID}
-      ]
+        ACCOUNT_MERGE_SUCCESS: Int64
+      ],
+      default: Void
   end
 
   defmodule InflationResultCode do
@@ -463,7 +483,7 @@ defmodule Stellar.XDR.Types.Transaction do
   end
 
   defmodule InflationPayout do
-    use XDR.Type.Struct,
+    use Struct,
       destination: AccountID,
       amount: Int64
   end
@@ -476,9 +496,9 @@ defmodule Stellar.XDR.Types.Transaction do
     use Union,
       switch: InflationResultCode,
       cases: [
-        {0, Payouts},
-        {-1, VOID}
-      ]
+        INFLATION_SUCCESS: Payouts
+      ],
+      default: Void
   end
 
   defmodule ManageDataResultCode do
@@ -494,39 +514,58 @@ defmodule Stellar.XDR.Types.Transaction do
     use Union,
       switch: ManageDataResultCode,
       cases: [
-        {0, VOID}
-      ]
+        MANAGE_DATA_SUCCESS: Void
+      ],
+      default: Void
+  end
+
+  defmodule BumpSequenceResultCode do
+    use Enum,
+      BUMP_SEQUENCE_SUCCESS: 0,
+      BUMP_SEQUENCE_BAD_SEQ: -1
+  end
+
+  defmodule BumpSequenceResult do
+    use Union,
+      switch: BumpSequenceResultCode,
+      cases: [
+        BUMP_SEQUENCE_SUCCESS: Void
+      ],
+      default: Void
   end
 
   defmodule OperationResultCode do
     use Enum,
       opINNER: 0,
       opBAD_AUTH: -1,
-      opNO_ACCOUNT: -2
+      opNO_ACCOUNT: -2,
+      opNOT_SUPPORTED: -3
   end
 
   defmodule OperationResult do
     use Union,
       switch: OperationResultCode,
       cases: [
-        {0, OperationResultInner}
-      ]
+        opINNER: OperationResultInner
+      ],
+      default: Void
 
     defmodule OperationResultInner do
       use Union,
         switch: OperationType,
         cases: [
-          {0, CreateAccountResult},
-          {1, PaymentResult},
-          {2, PathPaymentResult},
-          {3, ManageOfferResult},
-          {4, ManageOfferResult},
-          {5, SetOptionsResult},
-          {6, ChangeTrustResult},
-          {7, AllowTrustResult},
-          {8, AccountMergeResult},
-          {9, InflationResult},
-          {10, ManageDataResult}
+          CREATE_ACCOUNT: CreateAccountResult,
+          PAYMENT: PaymentResult,
+          PATH_PAYMENT: PathPaymentResult,
+          MANAGE_OFFER: ManageOfferResult,
+          CREATE_PASSIVE_OFFER: ManageOfferResult,
+          SET_OPTIONS: SetOptionsResult,
+          CHANGE_TRUST: ChangeTrustResult,
+          ALLOW_TRUST: AllowTrustResult,
+          ACCOUNT_MERGE: AccountMergeResult,
+          INFLATION: InflationResult,
+          MANAGE_DATA: ManageDataResult,
+          BUMP_SEQUENCE: BumpSequenceResult
         ]
     end
   end
@@ -555,16 +594,16 @@ defmodule Stellar.XDR.Types.Transaction do
     use Union,
       switch: TransactionResultCode,
       cases: [
-        {0, OperationResults},
-        {-1, OperationResults},
-        {-2, VOID}
-      ]
+        txSUCCESS: OperationResults,
+        txFAILED: OperationResults
+      ],
+      default: Void
   end
 
   defmodule TransactionResult do
-    use XDR.Type.Struct,
+    use Struct,
       feeCharged: Int64,
       result: TransactionResultResult,
-      ext: Ext
+      ext: DefaultExt
   end
 end
