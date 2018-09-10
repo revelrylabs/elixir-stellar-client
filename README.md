@@ -16,7 +16,7 @@ by adding `stellar` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:stellar, "~> 0.2.0"}
+    {:stellar, "~> 0.3.0"}
   ]
 end
 ```
@@ -25,6 +25,7 @@ Add the following to your configuration:
 
 ```elixir
 config :stellar, network: :public # Default is `:public`. To use test network, use `:test`
+config :stellar, hackney_options: [] # Options to pass to Hackney
 ```
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)

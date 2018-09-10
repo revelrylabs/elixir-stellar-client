@@ -4,15 +4,22 @@ defmodule Stellar.Base do
   def get(endpoint, headers \\ %{}) do
     url = get_url()
 
-    HTTPoison.get(url <> endpoint, headers)
+    HTTPoison.get(url <> endpoint, headers, options())
     |> process_response()
   end
 
   def post(endpoint, body, headers \\ %{}) do
     url = get_url()
 
-    HTTPoison.post(url <> endpoint, body, headers)
+    HTTPoison.post(url <> endpoint, body, headers, options())
     |> process_response()
+  end
+
+  defp options do
+    default_options = [recv_timeout: 30_000, timeout: 30_000]
+    override_options = Application.get_env(:stellar, :hackney_options, [])
+
+    Keyword.merge(default_options, override_options)
   end
 
   defp get_url() do
