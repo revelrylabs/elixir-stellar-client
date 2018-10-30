@@ -1,4 +1,4 @@
-defmodule Stellar.OrderBooks do
+defmodule Stellar.API.OrderBooks do
   @moduledoc """
   Functions for interacting with OrderBooks
   """

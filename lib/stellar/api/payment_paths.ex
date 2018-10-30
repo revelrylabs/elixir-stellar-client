@@ -1,4 +1,4 @@
-defmodule Stellar.PaymentPaths do
+defmodule Stellar.API.PaymentPaths do
   @moduledoc """
   Functions for interacting with PaymentPaths
   """

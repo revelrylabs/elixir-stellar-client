@@ -1,4 +1,4 @@
-defmodule Stellar.Operations do
+defmodule Stellar.API.Operations do
   @moduledoc """
   Functions for interacting with Operations
   """

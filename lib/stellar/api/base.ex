@@ -1,4 +1,4 @@
-defmodule Stellar.Base do
+defmodule Stellar.API.Base do
   @moduledoc false
 
   def get(endpoint, headers \\ %{}) do

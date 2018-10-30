@@ -1,4 +1,4 @@
-defmodule Stellar.TradeAggregations do
+defmodule Stellar.API.TradeAggregations do
   @moduledoc """
   Functions for interacting with TradeAggregations
   """

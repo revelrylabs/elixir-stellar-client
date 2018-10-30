@@ -1,4 +1,4 @@
-defmodule Stellar.Accounts do
+defmodule Stellar.API.Accounts do
   @moduledoc """
   Functions for interacting with Accounts
   """

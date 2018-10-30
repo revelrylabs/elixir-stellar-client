@@ -1,4 +1,4 @@
-defmodule Stellar.Offers do
+defmodule Stellar.API.Offers do
   @moduledoc """
   Functions for interacting with Offers
   """

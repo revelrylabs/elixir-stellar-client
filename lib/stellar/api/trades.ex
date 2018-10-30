@@ -1,4 +1,4 @@
-defmodule Stellar.Trades do
+defmodule Stellar.API.Trades do
   @moduledoc """
   Functions for interacting with Trades
   """
