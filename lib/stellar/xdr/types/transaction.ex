@@ -8,7 +8,8 @@ defmodule Stellar.XDR.Types.Transaction do
     HyperInt,
     HyperUint,
     VariableArray,
-    Uint
+    Uint,
+    String
   }
 
   alias Stellar.XDR.Types.{SignatureHint, Signature, Hash}
@@ -196,7 +197,7 @@ defmodule Stellar.XDR.Types.Transaction do
   end
 
   defmodule Text do
-    use VariableArray, spec: [max_len: 28, type: XDR.Type.String]
+    use String, max_len: 28
   end
 
   defmodule Memo do
@@ -204,11 +205,11 @@ defmodule Stellar.XDR.Types.Transaction do
       spec: [
         switch: MemoType,
         cases: [
-          {0, Void},
-          {1, Text},
-          {2, HyperUint},
-          {3, Hash},
-          {4, Hash}
+          MEMO_NONE: Void,
+          MEMO_TEXT: Text,
+          MEMO_ID: HyperUint,
+          MEMO_HASH: Hash,
+          MEMO_RETURN: Hash
         ]
       ]
   end

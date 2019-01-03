@@ -2,7 +2,7 @@ defmodule Stellar.API.Operations do
   @moduledoc """
   Functions for interacting with Operations
   """
-  alias Stellar.Base
+  alias Stellar.API.Base
 
   @doc """
   Returns all operations

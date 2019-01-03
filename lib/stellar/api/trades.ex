@@ -2,7 +2,7 @@ defmodule Stellar.API.Trades do
   @moduledoc """
   Functions for interacting with Trades
   """
-  alias Stellar.Base
+  alias Stellar.API.Base
 
   @doc """
   Returns all trades

@@ -154,4 +154,8 @@ defmodule Stellar.Operation do
       homeDomain: opts.home_domain
     }
   end
+
+  def to_xdr(operation) do
+    nil
+  end
 end

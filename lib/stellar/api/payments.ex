@@ -2,7 +2,7 @@ defmodule Stellar.API.Payments do
   @moduledoc """
   Functions for interacting with Payments
   """
-  alias Stellar.Base
+  alias Stellar.API.Base
 
   @doc """
   Returns all payments

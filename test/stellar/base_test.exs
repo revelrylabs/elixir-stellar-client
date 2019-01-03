@@ -1,6 +1,6 @@
 defmodule Stellar.Base.Test do
   use Stellar.HttpCase
-  alias Stellar.Base
+  alias Stellar.API.Base
 
   describe "get_network_url" do
     test "returns test network when :test specified" do

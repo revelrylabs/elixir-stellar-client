@@ -2,7 +2,7 @@ defmodule Stellar.API.Effects do
   @moduledoc """
   Functions for interacting with Effects
   """
-  alias Stellar.Base
+  alias Stellar.API.Base
 
   @doc """
   Returns all effects
