@@ -1,16 +1,13 @@
 sudo: false
 language: elixir
 elixir:
-  - 1.6
+  - 1.7
 otp_release:
-  - 20.2
+  - 2.2
 cache:
   directories:
     - _build
     - deps
-env:
-  global:
-    - HEX_USERNAME=bryanjos
 install:
   - mix local.hex --force
   - mix local.rebar --force
@@ -21,17 +18,7 @@ before_deploy:
   - mix compile
 deploy:
   skip_cleanup: true
-  # https://docs.travis-ci.com/user/deployment/script/
-  # > `script` must be a scalar pointing to an executable file or command.
   provider: script
-  # http://yaml.org/spec/1.2/spec.html#id2779048
-  # `>-` indicates the line folding.
-  script: >-
-    mix deps.get &&
-    mix hex.config username "$HEX_USERNAME" &&
-    (mix hex.config encrypted_key "$HEX_ENCRYPTED_KEY" > /dev/null 2>&1) &&
-    (echo "$HEX_PASSPHRASE" | mix hex.publish --no-confirm) &&
-    mix clean &&
-    mix deps.clean --all
+  script: mix hex.publish --yes
   on:
     tags: true
