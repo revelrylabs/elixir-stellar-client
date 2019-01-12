@@ -1,8 +1,8 @@
-defmodule Stellar.API.Offers do
+defmodule Stellar.Offers do
   @moduledoc """
   Functions for interacting with Offers
   """
-  alias Stellar.API.Base
+  alias Stellar.Base
 
   @doc """
   Returns all offers for given account

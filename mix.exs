@@ -42,11 +42,10 @@ defmodule Stellar.MixProject do
       {:jason, "~> 1.0"},
       {:crc, "~> 0.9.0"},
       {:ed25519, "~> 1.1"},
-      {:ex_doc, "~> 0.19", only: :dev},
-      {:bypass, "~> 0.9", only: :test},
-      {:excoveralls, "~> 0.10", only: :test},
-      {:xdr, "~> 0.1.1"},
-      {:plug_cowboy, "~> 1.0"}
+      {:ex_doc, "~> 0.19.1", only: :dev},
+      {:bypass, "~> 1.0.0", only: :test},
+      {:excoveralls, "~> 0.10.3", only: :test},
+      {:xdr, "~> 0.1.1"}
     ]
   end
 

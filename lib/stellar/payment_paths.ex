@@ -1,8 +1,8 @@
-defmodule Stellar.API.PaymentPaths do
+defmodule Stellar.PaymentPaths do
   @moduledoc """
   Functions for interacting with PaymentPaths
   """
-  alias Stellar.API.Base
+  alias Stellar.Base
 
   @doc """
   Returns payment paths meeting the given parameters

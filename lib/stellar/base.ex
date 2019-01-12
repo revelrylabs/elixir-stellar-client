@@ -1,4 +1,4 @@
-defmodule Stellar.API.Base do
+defmodule Stellar.Base do
   @moduledoc false
 
   def get(endpoint, headers \\ %{}) do
@@ -22,7 +22,7 @@ defmodule Stellar.API.Base do
     Keyword.merge(default_options, override_options)
   end
 
-  defp get_url() do
+  def get_url() do
     network = Application.get_env(:stellar, :network, :public)
     get_network_url(network)
   end

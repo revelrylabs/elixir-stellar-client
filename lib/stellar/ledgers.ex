@@ -1,8 +1,8 @@
-defmodule Stellar.API.Ledgers do
+defmodule Stellar.Ledgers do
   @moduledoc """
   Functions for interacting with Ledgers
   """
-  alias Stellar.API.Base
+  alias Stellar.Base
 
   @doc """
   Returns all ledgers

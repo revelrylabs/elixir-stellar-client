@@ -1,8 +1,8 @@
-defmodule Stellar.API.TradeAggregations do
+defmodule Stellar.TradeAggregations do
   @moduledoc """
   Functions for interacting with TradeAggregations
   """
-  alias Stellar.API.Base
+  alias Stellar.Base
 
   @doc """
   Returns trade aggregations meeting the given parameters

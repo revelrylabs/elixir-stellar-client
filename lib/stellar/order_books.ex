@@ -1,8 +1,8 @@
-defmodule Stellar.API.OrderBooks do
+defmodule Stellar.OrderBooks do
   @moduledoc """
   Functions for interacting with OrderBooks
   """
-  alias Stellar.API.Base
+  alias Stellar.Base
 
   @doc """
   Returns order book details

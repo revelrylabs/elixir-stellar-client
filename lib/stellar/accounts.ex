@@ -1,8 +1,8 @@
-defmodule Stellar.API.Accounts do
+defmodule Stellar.Accounts do
   @moduledoc """
   Functions for interacting with Accounts
   """
-  alias Stellar.API.Base
+  alias Stellar.Base
 
   @doc """
   Gets account details

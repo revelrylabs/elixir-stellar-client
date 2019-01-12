@@ -1,11 +1,11 @@
-defmodule Stellar.API.Payments do
+defmodule Stellar.Operations do
   @moduledoc """
-  Functions for interacting with Payments
+  Functions for interacting with Operations
   """
-  alias Stellar.API.Base
+  alias Stellar.Base
 
   @doc """
-  Returns all payments
+  Returns all operations
 
   optional `params` can take any of the following.:
 
@@ -18,28 +18,36 @@ defmodule Stellar.API.Payments do
   @spec all(Keyword.t()) :: {Stellar.status(), map}
   def all(params \\ []) do
     query = Base.process_query_params(params)
-    Base.get("/payments#{query}")
+    Base.get("/operations#{query}")
   end
 
   @doc """
-  Returns all payments for given account
+  Gets operation details
+  """
+  @spec get(binary) :: {Stellar.status(), map}
+  def get(id) do
+    Base.get("/operations/#{id}")
+  end
+
+  @doc """
+  Returns all operations for given account
 
   See `all/1` for allowed optional params
   """
   @spec all_for_account(binary, Keyword.t()) :: {Stellar.status(), map}
   def all_for_account(accountId, params \\ []) do
     query = Base.process_query_params(params)
-    Base.get("/accounts/#{accountId}/payments#{query}")
+    Base.get("/accounts/#{accountId}/operations#{query}")
   end
 
   @doc """
-  Returns all payments for given ledger
+  Returns all operations for given ledger
 
   See `all/1` for allowed optional params
   """
   @spec all_for_ledger(binary, Keyword.t()) :: {Stellar.status(), map}
   def all_for_ledger(ledgerId, params \\ []) do
     query = Base.process_query_params(params)
-    Base.get("/ledgers/#{ledgerId}/payments#{query}")
+    Base.get("/ledgers/#{ledgerId}/operations#{query}")
   end
 end

@@ -1,8 +1,8 @@
-defmodule Stellar.API.Assets do
+defmodule Stellar.Assets do
   @moduledoc """
   Functions for interacting with Assets
   """
-  alias Stellar.API.Base
+  alias Stellar.Base
 
   @doc """
   Returns all known assets in one the network

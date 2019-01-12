@@ -38,7 +38,7 @@ defmodule Stellar.Operation do
   def account_merge(opts) do
     %Operation{
       type: "accountMerge",
-      destination: opts.destination,
+      destination: Map.get(opts, :destination),
       sourceAccount: Map.get(opts, :source, nil)
     }
   end
@@ -46,9 +46,9 @@ defmodule Stellar.Operation do
   def allow_trust(opts) do
     %Operation{
       type: "allowTrust",
-      trustor: opts.trustor,
-      assetCode: opts.asset_code,
-      authorize: opts.authorize,
+      trustor: Map.get(opts, :trustor),
+      assetCode: Map.get(opts, :asset_code),
+      authorize: Map.get(opts, :authorize),
       sourceAccount: Map.get(opts, :source, nil)
     }
   end
@@ -56,7 +56,7 @@ defmodule Stellar.Operation do
   def bump_sequence(opts) do
     %Operation{
       type: "bumpSequence",
-      bumpTo: opts.bump_to,
+      bumpTo: Map.get(opts, :bump_to),
       sourceAccount: Map.get(opts, :source, nil)
     }
   end
@@ -72,8 +72,8 @@ defmodule Stellar.Operation do
   def create_account(opts) do
     %Operation{
       type: "createAccount",
-      destination: opts.destination,
-      startingBalance: opts.starting_balance,
+      destination: Map.get(opts, :destination),
+      startingBalance: Map.get(opts, :starting_balance),
       sourceAccount: Map.get(opts, :source, nil)
     }
   end
@@ -81,10 +81,10 @@ defmodule Stellar.Operation do
   def create_passive_offer(opts) do
     %Operation{
       type: "createPassiveOffer",
-      selling: opts.selling,
-      buying: opts.buying,
-      amount: opts.amount,
-      price: opts.price,
+      selling: Map.get(opts, :selling),
+      buying: Map.get(opts, :buying),
+      amount: Map.get(opts, :amount),
+      price: Map.get(opts, :price),
       sourceAccount: Map.get(opts, :source, nil)
     }
   end
@@ -99,8 +99,8 @@ defmodule Stellar.Operation do
   def manage_data(opts) do
     %Operation{
       type: "manageData",
-      name: opts.name,
-      value: opts.value,
+      name: Map.get(opts, :name),
+      value: Map.get(opts, :value),
       sourceAccount: Map.get(opts, :source, nil)
     }
   end
@@ -108,10 +108,10 @@ defmodule Stellar.Operation do
   def manage_offer(opts) do
     %Operation{
       type: "manageOffer",
-      selling: opts.selling,
-      buying: opts.buying,
-      amount: opts.amount,
-      price: opts.price,
+      selling: Map.get(opts, :selling),
+      buying: Map.get(opts, :buying),
+      amount: Map.get(opts, :amount),
+      price: Map.get(opts, :price),
       offerId: Map.get(opts, :offer_id, "0"),
       sourceAccount: Map.get(opts, :source, nil)
     }
@@ -120,12 +120,12 @@ defmodule Stellar.Operation do
   def path_payment(opts) do
     %Operation{
       type: "pathPayment",
-      sendAsset: opts.send_asset,
-      sendMax: opts.send_max,
-      destination: opts.destination,
-      destAsset: opts.dest_asset,
-      destAmount: opts.dest_amount,
-      path: opts.path,
+      sendAsset: Map.get(opts, :send_asset),
+      sendMax: Map.get(opts, :send_max),
+      destination: Map.get(opts, :destination),
+      destAsset: Map.get(opts, :dest_asset),
+      destAmount: Map.get(opts, :dest_amount),
+      path: Map.get(opts, :path),
       sourceAccount: Map.get(opts, :source, nil)
     }
   end
@@ -133,9 +133,9 @@ defmodule Stellar.Operation do
   def payment(opts) do
     %Operation{
       type: "payment",
-      destination: opts.destination,
-      asset: opts.asset,
-      amount: opts.amount,
+      destination: Map.get(opts, :destination),
+      asset: Map.get(opts, :asset),
+      amount: Map.get(opts, :amount),
       sourceAccount: Map.get(opts, :source, nil)
     }
   end
@@ -143,19 +143,19 @@ defmodule Stellar.Operation do
   def set_options(opts) do
     %Operation{
       type: "setOptions",
-      inflationDest: opts.inflation_dest,
-      clearFlags: opts.clear_flags,
-      setFlags: opts.set_flags,
-      masterWeight: opts.master_weight,
-      lowThreshold: opts.low_threshold,
-      medThreshold: opts.med_threshold,
-      highThreshold: opts.high_threshold,
-      signer: opts.signer,
-      homeDomain: opts.home_domain
+      inflationDest: Map.get(opts, :inflation_dest),
+      clearFlags: Map.get(opts, :clear_flags),
+      setFlags: Map.get(opts, :set_flags),
+      masterWeight: Map.get(opts, :master_weight),
+      lowThreshold: Map.get(opts, :low_threshold),
+      medThreshold: Map.get(opts, :med_threshold),
+      highThreshold: Map.get(opts, :high_threshold),
+      signer: Map.get(opts, :signer),
+      homeDomain: Map.get(opts, :home_domain)
     }
   end
 
-  def to_xdr(operation) do
+  def to_xdr(_operation) do
     nil
   end
 end
