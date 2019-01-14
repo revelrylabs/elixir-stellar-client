@@ -5,7 +5,7 @@
   "cowlib": {:hex, :cowlib, "2.7.0", "3ef16e77562f9855a2605900cedb15c1462d76fb1be6a32fc3ae91973ee543d2", [:rebar3], [], "hexpm"},
   "crc": {:hex, :crc, "0.9.1", "0b1ee24ca7bcadd687edb3494dbdc560fafa86f4ab7229cee03ebdd5c24fe702", [:mix, :rebar3], [{:elixir_make, "~> 0.4", [hex: :elixir_make, repo: "hexpm", optional: false]}], "hexpm"},
   "earmark": {:hex, :earmark, "1.3.1", "73812f447f7a42358d3ba79283cfa3075a7580a3a2ed457616d6517ac3738cb9", [:mix], [], "hexpm"},
-  "ed25519": {:hex, :ed25519, "1.3.0", "de3b340cb15eeb68c5ee4ab6834b2e9b4be8eba113fc24f58fe0d5022e3b4462", [:mix], [], "hexpm"},
+  "ed25519": {:hex, :ed25519, "1.3.1", "35a363527d1c85c773eae8b5e2dfe133c693c270a20e281a7021937929da5c2e", [:mix], [], "hexpm"},
   "elixir_make": {:hex, :elixir_make, "0.4.2", "332c649d08c18bc1ecc73b1befc68c647136de4f340b548844efc796405743bf", [:mix], [], "hexpm"},
   "ex_doc": {:hex, :ex_doc, "0.19.2", "6f4081ccd9ed081b6dc0bd5af97a41e87f5554de469e7d76025fba535180565f", [:mix], [{:earmark, "~> 1.2", [hex: :earmark, repo: "hexpm", optional: false]}, {:makeup_elixir, "~> 0.10", [hex: :makeup_elixir, repo: "hexpm", optional: false]}], "hexpm"},
   "excoveralls": {:hex, :excoveralls, "0.10.4", "b86230f0978bbc630c139af5066af7cd74fd16536f71bc047d1037091f9f63a9", [:mix], [{:hackney, "~> 1.13", [hex: :hackney, repo: "hexpm", optional: false]}, {:jason, "~> 1.0", [hex: :jason, repo: "hexpm", optional: false]}], "hexpm"},
