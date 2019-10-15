@@ -61,4 +61,15 @@ defmodule Stellar.Effects do
     query = Base.process_query_params(params)
     Base.get("/ledgers/#{ledgerId}/effects#{query}")
   end
+
+  @doc """
+  Returns all effects for given transaction
+
+  See `all/1` for allowed optional params
+  """
+  @spec all_for_transaction(binary, Keyword.t()) :: {Stellar.status(), map}
+  def all_for_transaction(hash, params \\ []) do
+    query = Base.process_query_params(params)
+    Base.get("/transactions/#{hash}/effects#{query}")
+  end
 end
