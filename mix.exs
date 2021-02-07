@@ -43,7 +43,7 @@ defmodule Stellar.MixProject do
       {:crc, "~> 0.10.1"},
       {:ed25519, "~> 1.1"},
       {:ex_doc, "~> 0.23.0", only: :dev},
-      {:bypass, "~> 1.0.0", only: :test},
+      {:bypass, "~> 2.1.0", only: :test},
       {:excoveralls, "~> 0.10.3", only: :test},
       {:xdr, "~> 0.1.1"}
     ]
