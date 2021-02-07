@@ -3,6 +3,6 @@ defmodule Stellar.Accounts.IntegrationTest do
   alias Stellar.Accounts
 
   test "get account details", %{public_key: public_key} do
-    assert {:ok, %{"id" => public_key}} = Accounts.get(public_key)
+    assert {:ok, %{"id" => ^public_key}} = Accounts.get(public_key)
   end
 end
