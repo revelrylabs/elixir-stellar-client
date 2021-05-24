@@ -44,7 +44,7 @@ defmodule Stellar.MixProject do
       {:ed25519, "~> 1.1"},
       {:ex_doc, "~> 0.23.0", only: :dev},
       {:bypass, "~> 2.1.0", only: :test},
-      {:excoveralls, "~> 0.10.3", only: :test},
+      {:excoveralls, "~> 0.14.1", only: :test},
       {:xdr, "~> 0.1.1"}
     ]
   end
